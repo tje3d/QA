@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../includes/functions.php';
 
 if (isAdminLoggedIn()) {
-    header('Location: /admin/index.php');
+    header('Location: index.php');
     exit;
 }
 
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     
     if (adminLogin($username, $password)) {
-        header('Location: /admin/index.php');
+        header('Location: index.php');
         exit;
     } else {
         $error = 'نام کاربری یا رمز عبور اشتباه است';

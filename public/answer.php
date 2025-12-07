@@ -7,7 +7,7 @@ $categoryId = $_GET['category'] ?? null;
 $attemptId = $_GET['attempt'] ?? null;
 
 if (!$categoryId) {
-    header('Location: /public/');
+    header('Location: ./');
     exit;
 }
 
@@ -17,7 +17,7 @@ $stmt->execute([(int)$categoryId]);
 $category = $stmt->fetch();
 
 if (!$category) {
-    header('Location: /public/');
+    header('Location: ./');
     exit;
 }
 
@@ -41,7 +41,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
     <title><?= htmlspecialchars($category['title']) ?> | سامانه پرسش و پاسخ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="/assets/js/iran_cities.js"></script>
+    <script src="../assets/js/iran_cities.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -155,7 +155,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     شروع پاسخ‌نامه جدید
                 </button>
 
-                <a href="/public/" class="block text-center text-surface-400 hover:text-surface-700 text-sm mt-6 font-medium transition-colors">
+                <a href="./" class="block text-center text-surface-400 hover:text-surface-700 text-sm mt-6 font-medium transition-colors">
                     بازگشت به صفحه اصلی
                 </a>
             </div>
@@ -173,7 +173,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
-                    <a href="/public/" class="hidden md:flex items-center justify-center w-10 h-10 rounded-xl bg-surface-50 text-surface-500 hover:bg-surface-100 hover:text-surface-900 transition border border-surface-200">
+                    <a href="./" class="hidden md:flex items-center justify-center w-10 h-10 rounded-xl bg-surface-50 text-surface-500 hover:bg-surface-100 hover:text-surface-900 transition border border-surface-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
@@ -536,7 +536,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
             <p class="text-surface-500 leading-relaxed mb-8">شما به تمامی سوالات این بخش با موفقیت پاسخ دادید.</p>
             
             <div class="flex flex-col gap-3">
-                <a href="/public/" class="w-full py-4 bg-surface-900 hover:bg-black text-white font-bold rounded-2xl shadow-lg transition-transform hover:-translate-y-1">
+                <a href="./" class="w-full py-4 bg-surface-900 hover:bg-black text-white font-bold rounded-2xl shadow-lg transition-transform hover:-translate-y-1">
                     بازگشت به منوی اصلی
                 </a>
                 <button @click="createNewAttempt()" class="w-full py-4 bg-primary-100 hover:bg-primary-200 text-primary-700 font-bold rounded-2xl transition-colors">
@@ -650,7 +650,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                 async loadAttempts() {
                     try {
-                        const res = await fetch(`/api/attempts.php?category_id=${this.categoryId}`);
+                        const res = await fetch(`../api/attempts.php?category_id=${this.categoryId}`);
                         const data = await res.json();
                         if (data.success) this.attempts = data.data;
                     } catch (e) {
@@ -660,7 +660,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                 async createNewAttempt() {
                     try {
-                        const res = await fetch('/api/attempts.php', {
+                        const res = await fetch('../api/attempts.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ category_id: this.categoryId })
@@ -687,7 +687,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                 async loadAnswers() {
                     try {
-                        const res = await fetch(`/api/answers.php?attempt_id=${this.currentAttemptId}`);
+                        const res = await fetch(`../api/answers.php?attempt_id=${this.currentAttemptId}`);
                         const data = await res.json();
                         if (data.success) this.answers = data.data;
                     } catch (e) {
@@ -765,7 +765,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                             try { value = JSON.parse(value); } catch { value = []; }
                         }
 
-                        await fetch('/api/answers.php', {
+                        await fetch('../api/answers.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({

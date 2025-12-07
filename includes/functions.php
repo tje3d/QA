@@ -65,7 +65,15 @@ function isAdminLoggedIn() {
 
 function requireAdmin() {
     if (!isAdminLoggedIn()) {
-        header('Location: /admin/login.php');
+        // Handle API requests
+        if (strpos($_SERVER['REQUEST_URI'], '/api/') !== false) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit;
+        }
+        
+        // Handle Admin pages (assumed to be in /admin/)
+        header('Location: login.php');
         exit;
     }
 }

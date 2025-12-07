@@ -55,19 +55,19 @@ requireAdmin();
 
                     <!-- Desktop Menu -->
                     <div class="hidden md:flex items-center gap-1">
-                        <a href="/admin/index.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">داشبورد</a>
-                        <a href="/admin/categories.php" class="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg">دسته‌بندی‌ها</a>
-                        <a href="/admin/questions.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">سوالات</a>
-                        <a href="/admin/answers.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">پاسخ‌ها</a>
+                        <a href="index.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">داشبورد</a>
+                        <a href="categories.php" class="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg">دسته‌بندی‌ها</a>
+                        <a href="questions.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">سوالات</a>
+                        <a href="answers.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">پاسخ‌ها</a>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="/public/" target="_blank" class="text-dark-400 hover:text-dark-800 transition">
+                    <a href="../public/" target="_blank" class="text-dark-400 hover:text-dark-800 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                         </svg>
                     </a>
-                    <a href="/admin/logout.php" class="text-dark-400 hover:text-red-500 transition">
+                    <a href="logout.php" class="text-dark-400 hover:text-red-500 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
@@ -79,10 +79,10 @@ requireAdmin();
         <!-- Mobile Menu -->
         <div x-show="mobileMenuOpen" class="md:hidden border-t border-dark-100 bg-white" x-transition x-cloak>
             <div class="flex flex-col p-4 space-y-2">
-                <a href="/admin/index.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">داشبورد</a>
-                <a href="/admin/categories.php" class="px-4 py-3 text-sm font-medium text-primary-600 bg-primary-50 rounded-xl">دسته‌بندی‌ها</a>
-                <a href="/admin/questions.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">سوالات</a>
-                <a href="/admin/answers.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">پاسخ‌ها</a>
+                <a href="index.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">داشبورد</a>
+                <a href="categories.php" class="px-4 py-3 text-sm font-medium text-primary-600 bg-primary-50 rounded-xl">دسته‌بندی‌ها</a>
+                <a href="questions.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">سوالات</a>
+                <a href="answers.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">پاسخ‌ها</a>
             </div>
         </div>
     </nav>
@@ -222,7 +222,7 @@ requireAdmin();
                 async loadCategories() {
                     this.loading = true;
                     try {
-                        const res = await fetch('/api/categories.php');
+                        const res = await fetch('../api/categories.php');
                         const data = await res.json();
                         if (data.success) this.categories = data.data;
                     } catch (e) {
@@ -253,7 +253,7 @@ requireAdmin();
                         const method = this.editingId ? 'PUT' : 'POST';
                         const body = this.editingId ? { ...this.form, id: this.editingId } : this.form;
 
-                        const res = await fetch('/api/categories.php', {
+                        const res = await fetch('../api/categories.php', {
                             method,
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(body)
@@ -276,7 +276,7 @@ requireAdmin();
                 async deleteCategory(id) {
                     if (!confirm('آیا از حذف این دسته‌بندی اطمینان دارید؟')) return;
                     try {
-                        const res = await fetch(`/api/categories.php?id=${id}`, { method: 'DELETE' });
+                        const res = await fetch(`../api/categories.php?id=${id}`, { method: 'DELETE' });
                         const data = await res.json();
                         if (data.success) {
                             this.showToast(data.message, 'success');

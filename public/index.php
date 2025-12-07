@@ -84,7 +84,7 @@ $categories = $stmt->fetchAll();
                     <div class="group relative animate-slide-up" style="animation-delay: <?= $index * 100 ?>ms">
                         <div class="absolute inset-0 bg-primary-500 rounded-[2rem] opacity-0 group-hover:opacity-5 transform group-hover:scale-105 transition-all duration-500"></div>
                         
-                        <a href="/public/answer.php?category=<?= $cat['id'] ?>" 
+                        <a href="answer.php?category=<?= $cat['id'] ?>" 
                            class="block h-full bg-white rounded-[2rem] border border-surface-200/60 p-6 md:p-8 shadow-soft hover:shadow-xl-soft hover:-translate-y-2 transition-all duration-300 relative z-10 overflow-hidden">
                             
                             <!-- Card Decoration -->

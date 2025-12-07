@@ -62,19 +62,19 @@ $sessionCount = $pdo->query('SELECT COUNT(*) FROM user_sessions')->fetchColumn()
                     
                     <!-- Desktop Menu -->
                     <div class="hidden md:flex items-center gap-1">
-                        <a href="/admin/index.php" class="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg">داشبورد</a>
-                        <a href="/admin/categories.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">دسته‌بندی‌ها</a>
-                        <a href="/admin/questions.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">سوالات</a>
-                        <a href="/admin/answers.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">پاسخ‌ها</a>
+                        <a href="index.php" class="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg">داشبورد</a>
+                        <a href="categories.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">دسته‌بندی‌ها</a>
+                        <a href="questions.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">سوالات</a>
+                        <a href="answers.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">پاسخ‌ها</a>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="/public/" target="_blank" class="text-dark-400 hover:text-dark-800 transition">
+                    <a href="../public/" target="_blank" class="text-dark-400 hover:text-dark-800 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                         </svg>
                     </a>
-                    <a href="/admin/logout.php" class="text-dark-400 hover:text-red-500 transition">
+                    <a href="logout.php" class="text-dark-400 hover:text-red-500 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
@@ -87,10 +87,10 @@ $sessionCount = $pdo->query('SELECT COUNT(*) FROM user_sessions')->fetchColumn()
         <!-- Mobile Menu -->
         <div x-show="mobileMenuOpen" class="md:hidden border-t border-dark-100 bg-white" x-transition x-cloak>
             <div class="flex flex-col p-4 space-y-2">
-                <a href="/admin/index.php" class="px-4 py-3 text-sm font-medium text-primary-600 bg-primary-50 rounded-xl">داشبورد</a>
-                <a href="/admin/categories.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">دسته‌بندی‌ها</a>
-                <a href="/admin/questions.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">سوالات</a>
-                <a href="/admin/answers.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">پاسخ‌ها</a>
+                <a href="index.php" class="px-4 py-3 text-sm font-medium text-primary-600 bg-primary-50 rounded-xl">داشبورد</a>
+                <a href="categories.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">دسته‌بندی‌ها</a>
+                <a href="questions.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">سوالات</a>
+                <a href="answers.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">پاسخ‌ها</a>
             </div>
         </div>
     </nav>
@@ -166,13 +166,13 @@ $sessionCount = $pdo->query('SELECT COUNT(*) FROM user_sessions')->fetchColumn()
         <div class="bg-white rounded-2xl p-6 border border-dark-100">
             <h2 class="text-lg font-semibold text-dark-900 mb-4">دسترسی سریع</h2>
             <div class="flex flex-wrap gap-3">
-                <a href="/admin/categories.php" class="inline-flex items-center gap-2 px-5 py-2.5 bg-dark-900 hover:bg-dark-800 text-white text-sm font-medium rounded-xl transition">
+                <a href="categories.php" class="inline-flex items-center gap-2 px-5 py-2.5 bg-dark-900 hover:bg-dark-800 text-white text-sm font-medium rounded-xl transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
                     دسته‌بندی جدید
                 </a>
-                <a href="/admin/questions.php" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-dark-50 text-dark-800 text-sm font-medium rounded-xl transition border border-dark-200">
+                <a href="questions.php" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-dark-50 text-dark-800 text-sm font-medium rounded-xl transition border border-dark-200">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
