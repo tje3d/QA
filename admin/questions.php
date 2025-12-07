@@ -171,7 +171,8 @@ requireAdmin();
                                                     'bg-green-50 text-green-600': q.answer_type === 'boolean',
                                                     'bg-purple-50 text-purple-600': q.answer_type === 'textarea',
                                                     'bg-orange-50 text-orange-600': q.answer_type === 'select',
-                                                    'bg-pink-50 text-pink-600': q.answer_type === 'multiselect'
+                                                    'bg-pink-50 text-pink-600': q.answer_type === 'multiselect',
+                                                    'bg-cyan-50 text-cyan-600': q.answer_type === 'city_province'
                                                 }"
                                                 x-text="answerTypeLabels[q.answer_type]"></span>
                                             <span x-show="q.options && q.options.length > 0" class="text-dark-300 text-xs" x-text="q.options.length + ' گزینه'"></span>
@@ -222,6 +223,7 @@ requireAdmin();
                                 <option value="boolean">بله/خیر</option>
                                 <option value="select">انتخابی (تک)</option>
                                 <option value="multiselect">انتخابی (چند)</option>
+                                <option value="city_province">استان و شهر</option>
                             </select>
                         </div>
                         <div>
@@ -319,7 +321,8 @@ requireAdmin();
                     'textarea': 'متن بلند',
                     'boolean': 'بله/خیر',
                     'select': 'انتخابی (تک)',
-                    'multiselect': 'انتخابی (چند)'
+                    'multiselect': 'انتخابی (چند)',
+                    'city_province': 'استان و شهر'
                 },
 
                 get questionGroups() {

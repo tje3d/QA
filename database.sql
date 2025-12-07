@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT NOT NULL,
     question_text TEXT NOT NULL,
-    answer_type ENUM('boolean', 'text', 'textarea', 'select', 'multiselect') NOT NULL DEFAULT 'text',
+    answer_type ENUM('boolean', 'text', 'textarea', 'select', 'multiselect', 'city_province') NOT NULL DEFAULT 'text',
     options JSON,
     placeholder VARCHAR(500),
     question_group VARCHAR(255) DEFAULT 'عمومی',

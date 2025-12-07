@@ -41,6 +41,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
     <title><?= htmlspecialchars($category['title']) ?> | سامانه پرسش و پاسخ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="/assets/js/iran_cities.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -446,6 +447,45 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                                         </template>
                                     </div>
                                 </template>
+
+                                <!-- City/Province -->
+                                <template x-if="currentQuestion.answer_type === 'city_province'">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="relative">
+                                            <label class="block text-sm font-bold text-surface-600 mb-2">استان</label>
+                                            <div class="relative">
+                                                <select 
+                                                    @change="setAnswer({ province: $event.target.value, city: '' }, false)"
+                                                    class="w-full px-4 py-4 bg-white border-2 border-surface-200 rounded-2xl appearance-none text-surface-900 font-medium focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all shadow-sm">
+                                                    <option value="">انتخاب استان...</option>
+                                                    <template x-for="p in iranProvinces" :key="p.name">
+                                                        <option :value="p.name" x-text="p.name" :selected="currentAnswer.province === p.name"></option>
+                                                    </template>
+                                                </select>
+                                                <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-surface-500">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="relative">
+                                            <label class="block text-sm font-bold text-surface-600 mb-2">شهر</label>
+                                            <div class="relative">
+                                                <select 
+                                                    @change="setAnswer({ province: currentAnswer.province, city: $event.target.value }, true)"
+                                                    :disabled="!currentAnswer.province"
+                                                    class="w-full px-4 py-4 bg-white border-2 border-surface-200 rounded-2xl appearance-none text-surface-900 font-medium focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all shadow-sm disabled:bg-surface-100 disabled:text-surface-400">
+                                                    <option value="">انتخاب شهر...</option>
+                                                    <template x-for="(c, idx) in currentProvinceCities" :key="idx">
+                                                        <option :value="c" x-text="c" :selected="currentAnswer.city === c"></option>
+                                                    </template>
+                                                </select>
+                                                <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-surface-500">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         </div>
                     </template>
@@ -534,12 +574,19 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     if (this.currentQuestion.answer_type === 'multiselect') {
                         return answer ? JSON.parse(answer) : [];
                     }
+                    if (this.currentQuestion.answer_type === 'city_province') {
+                        try {
+                            return answer ? JSON.parse(answer) : { province: '', city: '' };
+                        } catch {
+                            return { province: '', city: '' };
+                        }
+                    }
                     return answer || '';
                 },
 
                 set currentAnswer(value) {
                     if (!this.currentQuestion) return;
-                    if (this.currentQuestion.answer_type === 'multiselect') {
+                    if (this.currentQuestion.answer_type === 'multiselect' || this.currentQuestion.answer_type === 'city_province') {
                         this.answers[this.currentQuestion.id] = JSON.stringify(value);
                     } else {
                         this.answers[this.currentQuestion.id] = value;
@@ -578,6 +625,20 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     } else {
                         this.collapsedGroups.splice(idx, 1);
                     }
+                },
+
+                get iranProvinces() {
+                    return typeof window.IRAN_CITIES !== 'undefined' ? window.IRAN_CITIES : [];
+                },
+
+                get currentProvinceCities() {
+                    // Only compute cities if current question is city_province type
+                    if (!this.currentQuestion || this.currentQuestion.answer_type !== 'city_province') return [];
+                    const ans = this.currentAnswer;
+                    if (!ans || typeof ans !== 'object' || !ans.province) return [];
+                    if (typeof window.IRAN_CITIES === 'undefined') return [];
+                    const p = window.IRAN_CITIES.find(x => x.name === ans.province);
+                    return p ? p.cities : [];
                 },
 
                 async init() {
@@ -700,7 +761,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                     try {
                         let value = this.answers[this.currentQuestion.id] || '';
-                        if (this.currentQuestion.answer_type === 'multiselect') {
+                        if (this.currentQuestion.answer_type === 'multiselect' || this.currentQuestion.answer_type === 'city_province') {
                             try { value = JSON.parse(value); } catch { value = []; }
                         }
 

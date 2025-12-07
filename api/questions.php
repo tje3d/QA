@@ -53,7 +53,7 @@ switch ($method) {
             jsonResponse(['success' => false, 'message' => 'اطلاعات ناقص است'], 400);
         }
 
-        $validTypes = ['boolean', 'text', 'textarea', 'select', 'multiselect'];
+        $validTypes = ['boolean', 'text', 'textarea', 'select', 'multiselect', 'city_province'];
         if (!in_array($input['answer_type'], $validTypes)) {
             jsonResponse(['success' => false, 'message' => 'نوع پاسخ نامعتبر است'], 400);
         }
