@@ -19,8 +19,8 @@ $categories = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سامانه پرسش و پاسخ</title>
-    <meta name="description" content="پاسخ به سوالات در دسته‌بندی‌های مختلف">
+    <title>سامانه پرسش و پاسخ | آستان قدس رضوی</title>
+    <meta name="description" content="سامانه جامع نظرسنجی و مسابقات آستان قدس رضوی">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
@@ -30,27 +30,23 @@ $categories = $stmt->fetchAll();
                 extend: {
                     fontFamily: { vazir: ['Vazirmatn', 'sans-serif'] },
                     colors: {
-                        primary: { 50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7', 400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b' },
-                        surface: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a' }
+                        aqr: {
+                            gold: '#D4AF37',
+                            'gold-light': '#F3E5AB',
+                            'gold-dark': '#B4941F',
+                            green: '#0F4C3A', // Deep traditional green
+                            'green-light': '#1A6B54',
+                            'green-dark': '#083326',
+                            cream: '#FFFDD0',
+                            surface: '#F9FAFB'
+                        }
+                    },
+                    backgroundImage: {
+                        'islamic-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
                     },
                     boxShadow: {
-                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
-                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
-                        'xl-soft': '0 20px 40px -10px rgba(0,0,0,0.1)',
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-out',
-                        'slide-up': 'slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        }
+                        'gold': '0 10px 30px -10px rgba(212, 175, 55, 0.3)',
+                        'card': '0 20px 40px -5px rgba(0, 0, 0, 0.2)',
                     }
                 }
             }
@@ -59,67 +55,182 @@ $categories = $stmt->fetchAll();
     <style>
         * { font-family: 'Vazirmatn', sans-serif; }
         [x-cloak] { display: none !important; }
+        
+        .ornament-corner {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h30c10 0 20 10 20 20v10c0 10 10 20 20 20h10' stroke='%23D4AF37' stroke-width='1' fill='none' opacity='0.4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-surface-50 selection:bg-primary-100 selection:text-primary-900 flex items-center justify-center p-4 md:p-8"
-      style="background-image: radial-gradient(circle at 10% 20%, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 90%);">
+<body class="min-h-screen bg-aqr-green bg-islamic-pattern relative overflow-x-hidden selection:bg-aqr-gold selection:text-aqr-green-dark">
+
+    <!-- Background Gradients for Depth -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-[500px] bg-gradient-to-t from-black/50 to-transparent"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-aqr-green-light/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Hanging Lanterns (Decorative) -->
+    <div class="fixed top-0 inset-x-0 flex justify-center gap-40 md:gap-80 pointer-events-none z-10 opacity-80 hidden md:flex">
+        <div class="h-32 w-[1px] bg-aqr-gold/50 relative">
+            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full">
+                <!-- Lantern SVG -->
+                <svg width="40" height="60" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 0L20 10" stroke="#D4AF37" stroke-width="2"/>
+                    <path d="M10 15C10 12.2386 12.2386 10 15 10H25C27.7614 10 30 12.2386 30 15V45C30 47.7614 27.7614 50 25 50H15C12.2386 50 10 47.7614 10 45V15Z" fill="url(#lantern-gradient)" stroke="#D4AF37" stroke-width="2"/>
+                    <path d="M20 50V60" stroke="#D4AF37" stroke-width="2"/>
+                    <defs>
+                        <radialGradient id="lantern-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(20 30) rotate(90) scale(20 10)">
+                            <stop stop-color="#FFFDD0"/>
+                            <stop offset="1" stop-color="#F3E5AB" stop-opacity="0.2"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+        <div class="h-48 w-[1px] bg-aqr-gold/50 relative">
+            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full">
+                <svg width="40" height="60" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 0L20 10" stroke="#D4AF37" stroke-width="2"/>
+                    <path d="M10 15C10 12.2386 12.2386 10 15 10H25C27.7614 10 30 12.2386 30 15V45C30 47.7614 27.7614 50 25 50H15C12.2386 50 10 47.7614 10 45V15Z" fill="url(#lantern-gradient-2)" stroke="#D4AF37" stroke-width="2"/>
+                    <path d="M20 50V60" stroke="#D4AF37" stroke-width="2"/>
+                    <defs>
+                        <radialGradient id="lantern-gradient-2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(20 30) rotate(90) scale(20 10)">
+                            <stop stop-color="#FFFDD0"/>
+                            <stop offset="1" stop-color="#F3E5AB" stop-opacity="0.2"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content -->
-    <main class="w-full max-w-7xl mx-auto relative z-10">
-        <?php if (empty($categories)): ?>
-            <!-- Empty State -->
-            <div class="bg-white/60 backdrop-blur-md rounded-3xl border border-white p-12 text-center shadow-xl-soft max-w-lg mx-auto animate-slide-up">
-                <div class="w-20 h-20 bg-surface-100 rounded-[2rem] flex items-center justify-center mx-auto mb-6 transform rotate-3">
-                    <svg class="w-10 h-10 text-surface-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+    <main class="relative z-20 w-full max-w-7xl mx-auto px-4 py-8 pb-12 md:py-16 flex flex-col min-h-screen">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-16 md:mb-24 relative">
+            <div class="inline-flex flex-col items-center justify-center p-8 bg-aqr-green-dark/40 backdrop-blur-md rounded-[3rem] border border-aqr-gold/30 shadow-2xl relative">
+                <!-- Top Ornament -->
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-aqr-gold">
+                    <svg width="40" height="20" viewBox="0 0 40 20" fill="currentColor">
+                        <path d="M20 20C20 20 10 10 0 0H40C30 10 20 20 20 20Z"/>
                     </svg>
                 </div>
-                <h2 class="text-2xl font-bold text-surface-900 mb-3">هنوز چالشی نیست!</h2>
-                <p class="text-surface-500 leading-relaxed">در حال حاضر دسته‌بندی‌ای برای نمایش وجود ندارد.</p>
+
+                <!-- Logo Placeholder / Icon -->
+                <div class="w-20 h-20 mb-4 bg-gradient-to-tr from-aqr-gold to-aqr-gold-light rounded-full flex items-center justify-center p-1 shadow-lg shadow-aqr-gold/20">
+                    <div class="w-full h-full bg-aqr-green rounded-full flex items-center justify-center border-2 border-aqr-gold/50">
+                        <svg class="w-10 h-10 text-aqr-gold-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <h1 class="text-3xl md:text-5xl font-black text-white px-8 drop-shadow-md mb-2">آستان قـدس رضـوی</h1>
+                <p class="text-aqr-gold-light text-sm md:text-base font-medium opacity-90">سامانه جامع نظرسنجی و خدمات الکترونیک</p>
+                
+                <!-- Bottom Ornament -->
+                <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-aqr-gold rotate-180">
+                    <svg width="40" height="20" viewBox="0 0 40 20" fill="currentColor">
+                        <path d="M20 20C20 20 10 10 0 0H40C30 10 20 20 20 20Z"/>
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- Categories Grid -->
+        <?php if (empty($categories)): ?>
+            <div class="flex-1 flex items-center justify-center">
+                <div class="bg-white/10 backdrop-blur-md border border-aqr-gold/30 rounded-3xl p-12 text-center max-w-lg">
+                    <p class="text-aqr-gold-light text-lg">در حال حاضر موردی برای نمایش وجود ندارد.</p>
+                </div>
             </div>
         <?php else: ?>
-            <!-- Categories Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 items-stretch justify-center">
                 <?php foreach ($categories as $index => $cat): ?>
-                    <div class="group relative animate-slide-up" style="animation-delay: <?= $index * 100 ?>ms">
-                        <div class="absolute inset-0 bg-primary-500 rounded-[2rem] opacity-0 group-hover:opacity-5 transform group-hover:scale-105 transition-all duration-500"></div>
+                    <!-- Card -->
+                    <div class="group relative flex flex-col h-full transform transition-all duration-500 hover:-translate-y-2 hover:z-30">
                         
-                        <a href="answer.php?category=<?= $cat['id'] ?>" 
-                           class="block h-full bg-white rounded-[2rem] border border-surface-200/60 p-6 md:p-8 shadow-soft hover:shadow-xl-soft hover:-translate-y-2 transition-all duration-300 relative z-10 overflow-hidden">
-                            
-                            <!-- Card Decoration -->
-                            <div class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-primary-50 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <!-- Glow Effect behind card -->
+                        <div class="absolute inset-4 bg-aqr-gold/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                            <div class="flex items-start justify-between mb-6 relative">
-                                <div class="w-14 h-14 bg-surface-50 rounded-2xl flex items-center justify-center group-hover:bg-primary-500 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-primary-500/30">
-                                    <svg class="w-7 h-7 text-surface-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                                    </svg>
+                        <div class="relative bg-[#F9F9F4] rounded-[2.5rem] p-1 shadow-card flex flex-col h-full overflow-hidden border border-white/50">
+                            <!-- Inner Border Line -->
+                            <div class="absolute inset-2 border border-aqr-gold/20 rounded-[2rem] pointer-events-none z-10"></div>
+                            
+                            <!-- Card Content Container -->
+                            <div class="bg-white rounded-[2.25rem] flex-1 flex flex-col relative overflow-hidden">
+                                
+                                <!-- Top Decoration -->
+                                <div class="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-aqr-gold/5 to-transparent"></div>
+
+                                <!-- Badge (Question Count) -->
+                                <div class="absolute top-6 right-6 z-20">
+                                    <span class="inline-flex items-center justify-center h-8 px-4 bg-aqr-gold text-aqr-green-dark text-sm font-bold rounded-full shadow-md shadow-aqr-gold/30">
+                                        <?= $cat['question_count'] ?> سوال
+                                    </span>
                                 </div>
-                                <span class="px-4 py-1.5 bg-surface-100 text-surface-600 rounded-full text-xs font-bold border border-surface-200 group-hover:border-primary-200 group-hover:text-primary-700 group-hover:bg-primary-50 transition-colors">
-                                    <?= $cat['question_count'] ?> سوال
-                                </span>
-                            </div>
 
-                            <h2 class="text-xl font-black text-surface-900 mb-3 group-hover:text-primary-600 transition-colors relative">
-                                <?= htmlspecialchars($cat['title']) ?>
-                            </h2>
-                            
-                            <p class="text-surface-500 text-sm leading-7 line-clamp-2 mb-8 h-14 relative">
-                                <?= htmlspecialchars($cat['description'] ?: 'بدون توضیحات تکمیلی برای این بخش.') ?>
-                            </p>
+                                <!-- Icon Area -->
+                                <div class="pt-12 pb-4 flex justify-center relative z-10">
+                                    <div class="w-20 h-20 bg-aqr-green rounded-2xl rotate-45 flex items-center justify-center shadow-lg shadow-aqr-green/30 group-hover:rotate-0 transition-all duration-500">
+                                        <div class="-rotate-45 group-hover:rotate-0 transition-transform duration-500">
+                                            <svg class="w-10 h-10 text-aqr-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2-2H7a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div class="flex items-center text-primary-600 font-bold text-sm group/btn">
-                                <span class="group-hover/btn:ml-2 transition-all">شروع پاسخ‌دهی</span>
-                                <svg class="w-4 h-4 mr-2 rotate-180 transition-transform duration-300 transform group-hover/btn:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                </svg>
+                                <!-- Text Content -->
+                                <div class="px-8 mt-4 text-center flex-1">
+                                    <h3 class="text-xl font-black text-aqr-green-dark mb-3 leading-tight">
+                                        <?= htmlspecialchars($cat['title']) ?>
+                                    </h3>
+                                    <p class="text-gray-500 text-sm leading-7 line-clamp-3 mb-6">
+                                        <?= htmlspecialchars($cat['description'] ?: 'توضیحات مربوط به این بخش در این قسمت قرار می‌گیرد.') ?>
+                                    </p>
+                                </div>
+
+                                <!-- Action Area (Button) -->
+                                <div class="mt-auto relative">
+                                    <!-- Decorative Divider -->
+                                    <div class="flex items-center justify-center gap-2 mb-4 opacity-40">
+                                        <div class="h-px w-12 bg-aqr-gold"></div>
+                                        <div class="w-2 h-2 rotate-45 bg-aqr-gold"></div>
+                                        <div class="h-px w-12 bg-aqr-gold"></div>
+                                    </div>
+
+                                    <a href="answer.php?category=<?= $cat['id'] ?>" 
+                                       class="block bg-aqr-green hover:bg-aqr-green-light py-4 text-center text-white font-bold text-lg transition-colors relative overflow-hidden group/btn">
+                                        <span class="relative z-10 flex items-center justify-center gap-2">
+                                            شروع پاسخ‌دهی
+                                            <svg class="w-5 h-5 transition-transform duration-300 group-hover/btn:-translate-x-1 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                            </svg>
+                                        </span>
+                                        <!-- Pattern Overlay on Button -->
+                                        <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
+                                    </a>
+                                </div>
+
                             </div>
-                        </a>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </main>
+
+    <!-- Footer Copyright -->
+    <footer class="absolute bottom-4 left-0 right-0 text-center z-10">
+        <p class="text-aqr-gold-light/60 text-xs text-shadow-sm font-light">طراحی و توسعه توسط مدیریت آمار و فناوری اطلاعات</p>
+    </footer>
+
 </body>
 </html>
