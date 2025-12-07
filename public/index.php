@@ -42,7 +42,7 @@ $categories = $stmt->fetchAll();
                         }
                     },
                     backgroundImage: {
-                        'islamic-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                        'islamic-pattern': "url('../assets/img/pattern-white.png')",
                     },
                     boxShadow: {
                         'gold': '0 10px 30px -10px rgba(212, 175, 55, 0.3)',
@@ -65,10 +65,13 @@ $categories = $stmt->fetchAll();
         }
     </style>
 </head>
-<body class="min-h-screen bg-aqr-green bg-islamic-pattern relative overflow-x-hidden selection:bg-aqr-gold selection:text-aqr-green-dark">
+<body class="min-h-screen bg-aqr-green relative overflow-x-hidden selection:bg-aqr-gold selection:text-aqr-green-dark">
 
     <!-- Background Gradients for Depth -->
     <div class="fixed inset-0 pointer-events-none">
+        <!-- Pattern Overlay -->
+        <div class="absolute inset-0 bg-islamic-pattern opacity-[3%] bg-repeat"></div>
+        
         <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-black/30 to-transparent"></div>
         <div class="absolute bottom-0 left-0 w-full h-[500px] bg-gradient-to-t from-black/50 to-transparent"></div>
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-aqr-green-light/10 rounded-full blur-3xl"></div>
@@ -123,11 +126,9 @@ $categories = $stmt->fetchAll();
                 </div>
 
                 <!-- Logo Placeholder / Icon -->
-                <div class="w-20 h-20 mb-4 bg-gradient-to-tr from-aqr-gold to-aqr-gold-light rounded-full flex items-center justify-center p-1 shadow-lg shadow-aqr-gold/20">
-                    <div class="w-full h-full bg-aqr-green rounded-full flex items-center justify-center border-2 border-aqr-gold/50">
-                        <svg class="w-10 h-10 text-aqr-gold-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                        </svg>
+                <div class="size-32 mb-4 bg-gradient-to-tr from-aqr-gold to-aqr-gold-light rounded-full flex items-center justify-center p-1 shadow-lg shadow-aqr-gold/20">
+                    <div class="w-full h-full bg-aqr-green rounded-full flex items-center justify-center p-4">
+                        <img src="../assets/img/logo-white.png" alt="آستان قدس رضوی" class="w-full h-full object-contain drop-shadow-md">
                     </div>
                 </div>
 

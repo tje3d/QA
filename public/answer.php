@@ -61,7 +61,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                         }
                     },
                     backgroundImage: {
-                        'islamic-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                        'islamic-pattern': "url('../assets/img/pattern-white.png')",
                     },
                     boxShadow: {
                         'gold': '0 10px 30px -10px rgba(212, 175, 55, 0.3)',
@@ -89,12 +89,14 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #0F4C3A; }
     </style>
 </head>
-<body class="h-screen bg-aqr-green bg-islamic-pattern overflow-hidden selection:bg-aqr-gold selection:text-aqr-green-dark" 
+<body class="h-screen bg-aqr-green overflow-hidden selection:bg-aqr-gold selection:text-aqr-green-dark" 
       x-data="answerApp()" 
       x-init="init()">
     
     <!-- Background Gradients -->
     <div class="fixed inset-0 pointer-events-none">
+        <!-- Pattern Overlay -->
+        <div class="absolute inset-0 bg-islamic-pattern opacity-[3%] bg-repeat"></div>
         <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-black/30 to-transparent"></div>
         <div class="absolute bottom-0 left-0 w-full h-[500px] bg-gradient-to-t from-black/50 to-transparent"></div>
     </div>
