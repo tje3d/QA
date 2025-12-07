@@ -16,6 +16,7 @@ $categories = $pdo->query('SELECT * FROM categories ORDER BY title')->fetchAll()
     <title>پاسخ‌ها | سامانه پرسش و پاسخ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -98,18 +99,27 @@ $categories = $pdo->query('SELECT * FROM categories ORDER BY title')->fetchAll()
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 md:px-6 py-8" x-data="answersApp()">
         <!-- Header -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
                 <h1 class="text-2xl font-bold text-dark-900">پاسخ‌ها</h1>
                 <p class="text-dark-400 mt-1">مشاهده و خروجی پاسخ‌های کاربران</p>
             </div>
-            <button @click="exportCSV()" :disabled="!selectedCategory || attempts.length === 0"
-                class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                </svg>
-                خروجی CSV
-            </button>
+            <div class="flex items-center gap-3">
+                <button @click="exportCSV()" :disabled="!selectedCategory || attempts.length === 0"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    خروجی CSV
+                </button>
+                <button @click="exportXLSX()" :disabled="!selectedCategory || attempts.length === 0"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    خروجی XLSX
+                </button>
+            </div>
         </div>
 
         <!-- Category Filter -->
@@ -396,6 +406,41 @@ $categories = $pdo->query('SELECT * FROM categories ORDER BY title')->fetchAll()
                     link.href = URL.createObjectURL(blob);
                     link.download = 'answers_' + this.selectedCategory + '_' + new Date().toISOString().slice(0,10) + '.csv';
                     link.click();
+                },
+
+                exportXLSX() {
+                    // Headers
+                    const headers = ['شماره', 'تاریخ ثبت', 'وضعیت پیشرفت'];
+                    for (const q of this.questions) {
+                        headers.push(q.question_text);
+                    }
+
+                    const data = [headers];
+
+                    // Data Rows
+                    for (let i = 0; i < this.attempts.length; i++) {
+                        const att = this.attempts[i];
+                        const row = [
+                            i + 1,
+                            this.formatDate(att.created_at),
+                            this.getAttemptProgress(att) + '%'
+                        ];
+                        for (const q of this.questions) {
+                            row.push(this.getAnswer(att.id, q.id) || '');
+                        }
+                        data.push(row);
+                    }
+
+                    // Create Workbook
+                    const wb = XLSX.utils.book_new();
+                    const ws = XLSX.utils.aoa_to_sheet(data);
+
+                    // Set RTL direction for the sheet
+                    if(!ws['!views']) ws['!views'] = [];
+                    ws['!views'].push({ rightToLeft: true });
+
+                    XLSX.utils.book_append_sheet(wb, ws, "Answers");
+                    XLSX.writeFile(wb, 'answers_' + this.selectedCategory + '_' + new Date().toISOString().slice(0,10) + '.xlsx');
                 }
             };
         }
