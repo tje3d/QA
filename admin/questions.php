@@ -26,16 +26,35 @@ include __DIR__ . '/includes/header.php';
             </button>
         </div>
 
-        <!-- Category Filter -->
-        <div class="bg-white rounded-2xl border border-dark-100 p-6 mb-6">
-            <label class="block text-dark-800 text-sm font-medium mb-3">انتخاب دسته‌بندی</label>
-            <select x-model="selectedCategory" @change="loadQuestions()"
-                class="w-full max-w-sm px-4 py-3 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition">
-                <option value="">انتخاب کنید...</option>
+        <!-- Category Selection -->
+        <div class="mb-10">
+            <div class="flex items-center justify-between mb-4 px-1">
+                <h3 class="text-xs font-bold text-dark-400 uppercase tracking-widest">انتخاب دسته‌بندی</h3>
+                <div class="h-px flex-1 bg-dark-100 mx-4"></div>
+                <span class="text-xs font-medium text-dark-400 bg-dark-50 px-3 py-1 rounded-full" x-text="categories.length + ' دسته‌بندی'"></span>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
                 <template x-for="cat in categories" :key="cat.id">
-                    <option :value="cat.id" x-text="cat.title"></option>
+                    <button @click="selectedCategory = cat.id; loadQuestions()"
+                        :class="selectedCategory == cat.id 
+                            ? 'bg-brand-600 border-brand-600 text-white shadow-xl shadow-brand-500/20 ring-4 ring-brand-500/10' 
+                            : 'bg-white border-dark-100 text-dark-700 hover:border-brand-300 hover:bg-brand-50/30'"
+                        class="relative overflow-hidden group p-4 rounded-2xl border-2 transition-all duration-300 text-right">
+                        <div class="flex flex-col gap-3">
+                            <div :class="selectedCategory == cat.id ? 'bg-white/20' : 'bg-dark-50 group-hover:bg-brand-100/50'"
+                                class="w-10 h-10 rounded-xl flex items-center justify-center transition-colors">
+                                <svg class="w-5 h-5" :class="selectedCategory == cat.id ? 'text-white' : 'text-dark-400 group-hover:text-brand-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                </svg>
+                            </div>
+                            <div class="font-bold text-sm" x-text="cat.title"></div>
+                        </div>
+                        <!-- Active Indicator -->
+                        <div x-show="selectedCategory == cat.id" 
+                            class="absolute top-2 left-2 w-2 h-2 bg-white rounded-full"></div>
+                    </button>
                 </template>
-            </select>
+            </div>
         </div>
 
         <!-- Loading -->
@@ -44,14 +63,14 @@ include __DIR__ . '/includes/header.php';
         </div>
 
         <!-- No Category Selected -->
-        <div x-show="!loading && !selectedCategory" class="bg-white rounded-2xl border border-dark-100 p-16 text-center">
-            <div class="w-16 h-16 bg-dark-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-dark-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+        <div x-show="!loading && !selectedCategory" class="bg-white/50 backdrop-blur-sm rounded-3xl border-2 border-dashed border-dark-200 p-20 text-center">
+            <div class="w-20 h-20 bg-white rounded-3xl shadow-sm flex items-center justify-center mx-auto mb-6 ring-8 ring-dark-50">
+                <svg class="w-10 h-10 text-dark-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                 </svg>
             </div>
-            <h3 class="text-lg font-semibold text-dark-900 mb-2">دسته‌بندی را انتخاب کنید</h3>
-            <p class="text-dark-400">ابتدا یک دسته‌بندی برای مشاهده سوالات انتخاب کنید</p>
+            <h3 class="text-xl font-bold text-dark-900 mb-2">منتظر انتخاب شما</h3>
+            <p class="text-dark-400 max-w-xs mx-auto">برای مشاهده و مدیریت سوالات، یکی از دسته‌بندی‌های بالا را انتخاب کنید</p>
         </div>
 
         <!-- Empty State -->
