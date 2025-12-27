@@ -11,175 +11,146 @@ $categoryCount = $pdo->query('SELECT COUNT(*) FROM categories')->fetchColumn();
 $questionCount = $pdo->query('SELECT COUNT(*) FROM questions')->fetchColumn();
 $attemptCount = $pdo->query('SELECT COUNT(*) FROM attempts')->fetchColumn();
 $sessionCount = $pdo->query('SELECT COUNT(*) FROM user_sessions')->fetchColumn();
+
+$pageTitle = 'داشبورد مدیریت';
+$currentPage = 'dashboard';
+include __DIR__ . '/includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>داشبورد | سامانه پرسش و پاسخ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { vazir: ['Vazirmatn', 'sans-serif'] },
-                    colors: {
-                        primary: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
-                        dark: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 800: '#1e293b', 900: '#0f172a' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        * { font-family: 'Vazirmatn', sans-serif; }
-    </style>
-</head>
-<body class="min-h-screen bg-dark-50">
-    <!-- Top Navigation -->
-    <nav class="bg-white border-b border-dark-100 sticky top-0 z-50" x-data="{ mobileMenuOpen: false }">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-4 md:gap-8">
-                    <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-dark-500 hover:text-dark-900 p-1">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                    
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-primary-500 rounded-xl flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <span class="font-bold text-dark-900 hidden sm:inline">پنل مدیریت</span>
-                    </div>
-                    
-                    <!-- Desktop Menu -->
-                    <div class="hidden md:flex items-center gap-1">
-                        <a href="index.php" class="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg">داشبورد</a>
-                        <a href="categories.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">دسته‌بندی‌ها</a>
-                        <a href="questions.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">سوالات</a>
-                        <a href="answers.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">پاسخ‌ها</a>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <a href="../public/" target="_blank" class="text-dark-400 hover:text-dark-800 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                    </a>
-                    <a href="logout.php" class="text-dark-400 hover:text-red-500 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" class="md:hidden border-t border-dark-100 bg-white" x-transition x-cloak>
-            <div class="flex flex-col p-4 space-y-2">
-                <a href="index.php" class="px-4 py-3 text-sm font-medium text-primary-600 bg-primary-50 rounded-xl">داشبورد</a>
-                <a href="categories.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">دسته‌بندی‌ها</a>
-                <a href="questions.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">سوالات</a>
-                <a href="answers.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">پاسخ‌ها</a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 md:px-6 py-8">
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold text-dark-900">داشبورد</h1>
-            <p class="text-dark-400 mt-1">خلاصه وضعیت سامانه</p>
+    <main class="max-w-7xl mx-auto px-6 py-10">
+        <!-- Welcome Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">خوش آمدید، مدیر عزیز 👋</h1>
+                <p class="text-slate-500 mt-2 font-medium">آخرین آمار و فعالیت‌های سامانه در یک نگاه</p>
+            </div>
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            <div class="bg-white rounded-2xl p-6 border border-dark-100">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="stat-card bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm shadow-slate-200/50 group">
+                <div class="flex flex-col gap-6">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                         </svg>
                     </div>
                     <div>
-                        <p class="text-dark-400 text-sm">دسته‌بندی‌ها</p>
-                        <p class="text-2xl font-bold text-dark-900"><?= $categoryCount ?></p>
+                        <p class="text-slate-500 text-sm font-bold mb-1">دسته‌بندی‌ها</p>
+                        <p class="text-4xl font-black text-slate-900"><?= $categoryCount ?></p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 border border-dark-100">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="stat-card bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm shadow-slate-200/50 group">
+                <div class="flex flex-col gap-6">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
                     <div>
-                        <p class="text-dark-400 text-sm">سوالات</p>
-                        <p class="text-2xl font-bold text-dark-900"><?= $questionCount ?></p>
+                        <p class="text-slate-500 text-sm font-bold mb-1">سوالات</p>
+                        <p class="text-4xl font-black text-slate-900"><?= $questionCount ?></p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 border border-dark-100">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="stat-card bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm shadow-slate-200/50 group">
+                <div class="flex flex-col gap-6">
+                    <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                         </svg>
                     </div>
                     <div>
-                        <p class="text-dark-400 text-sm">پاسخ‌نامه‌ها</p>
-                        <p class="text-2xl font-bold text-dark-900"><?= $attemptCount ?></p>
+                        <p class="text-slate-500 text-sm font-bold mb-1">پاسخ‌نامه‌ها</p>
+                        <p class="text-4xl font-black text-slate-900"><?= $attemptCount ?></p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 border border-dark-100">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="stat-card bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm shadow-slate-200/50 group">
+                <div class="flex flex-col gap-6">
+                    <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                     </div>
                     <div>
-                        <p class="text-dark-400 text-sm">کاربران</p>
-                        <p class="text-2xl font-bold text-dark-900"><?= $sessionCount ?></p>
+                        <p class="text-slate-500 text-sm font-bold mb-1">کاربران فعال</p>
+                        <p class="text-4xl font-black text-slate-900"><?= $sessionCount ?></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="bg-white rounded-2xl p-6 border border-dark-100">
-            <h2 class="text-lg font-semibold text-dark-900 mb-4">دسترسی سریع</h2>
-            <div class="flex flex-wrap gap-3">
-                <a href="categories.php" class="inline-flex items-center gap-2 px-5 py-2.5 bg-dark-900 hover:bg-dark-800 text-white text-sm font-medium rounded-xl transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    دسته‌بندی جدید
-                </a>
-                <a href="questions.php" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-dark-50 text-dark-800 text-sm font-medium rounded-xl transition border border-dark-200">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    سوال جدید
-                </a>
+        <!-- Dashboard Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Quick Actions -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-xl shadow-slate-200/40 relative overflow-hidden h-full">
+                    <!-- Decorative element -->
+                    <div class="absolute -top-12 -right-12 w-24 h-24 bg-brand-50 rounded-full blur-2xl opacity-60"></div>
+                    
+                    <h2 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-brand-500 rounded-full"></span>
+                        دسترسی سریع
+                    </h2>
+                    
+                    <div class="space-y-4 relative z-10">
+                        <a href="categories.php" class="flex items-center justify-between p-5 bg-slate-50 hover:bg-brand-600 hover:text-white rounded-2xl transition-all duration-300 group border border-slate-100">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-white group-hover:bg-brand-500 rounded-xl flex items-center justify-center shadow-sm transition-colors">
+                                    <svg class="w-5 h-5 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-bold">دسته‌بندی جدید</span>
+                            </div>
+                            <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </a>
+
+                        <a href="questions.php" class="flex items-center justify-between p-5 bg-slate-50 hover:bg-brand-600 hover:text-white rounded-2xl transition-all duration-300 group border border-slate-100">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-white group-hover:bg-brand-500 rounded-xl flex items-center justify-center shadow-sm transition-colors">
+                                    <svg class="w-5 h-5 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-bold">سوال جدید</span>
+                            </div>
+                            <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="mt-12 p-6 bg-brand-50 rounded-[2rem] border border-brand-100">
+                        <p class="text-brand-800 text-xs font-bold uppercase tracking-wider mb-2">راهنمای سریع</p>
+                        <p class="text-brand-600 text-sm leading-relaxed">برای مدیریت بهتر سوالات، ابتدا دسته‌بندی مناسب را ایجاد کنید.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder for Recent Activity or more stats -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-sm h-full flex flex-center items-center justify-center text-center">
+                    <div>
+                        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">فعالیت‌های اخیر</h3>
+                        <p class="text-slate-500 mt-2">گزارش فعالیت‌های اخیر در نسخه‌های بعدی اضافه خواهد شد.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
-</body>
-</html>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>

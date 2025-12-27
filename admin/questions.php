@@ -2,93 +2,15 @@
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../config/database.php';
 requireAdmin();
+
+$pageTitle = 'سوالات';
+$currentPage = 'questions';
+include __DIR__ . '/includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سوالات | سامانه پرسش و پاسخ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { vazir: ['Vazirmatn', 'sans-serif'] },
-                    colors: {
-                        primary: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
-                        dark: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 800: '#1e293b', 900: '#0f172a' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        * { font-family: 'Vazirmatn', sans-serif; }
-        [x-cloak] { display: none !important; }
-    </style>
-</head>
-<body class="min-h-screen bg-dark-50">
-    <!-- Top Navigation -->
-    <!-- Top Navigation -->
-    <nav class="bg-white border-b border-dark-100 sticky top-0 z-40" x-data="{ mobileMenuOpen: false }">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-4 md:gap-8">
-                     <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-dark-500 hover:text-dark-900 p-1">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-primary-500 rounded-xl flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <span class="font-bold text-dark-900 hidden sm:inline">پنل مدیریت</span>
-                    </div>
-
-                    <!-- Desktop Menu -->
-                    <div class="hidden md:flex items-center gap-1">
-                        <a href="index.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">داشبورد</a>
-                        <a href="categories.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">دسته‌بندی‌ها</a>
-                        <a href="questions.php" class="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg">سوالات</a>
-                        <a href="answers.php" class="px-4 py-2 text-sm font-medium text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">پاسخ‌ها</a>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <a href="../public/" target="_blank" class="text-dark-400 hover:text-dark-800 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                    </a>
-                    <a href="logout.php" class="text-dark-400 hover:text-red-500 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" class="md:hidden border-t border-dark-100 bg-white" x-transition x-cloak>
-            <div class="flex flex-col p-4 space-y-2">
-                <a href="index.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">داشبورد</a>
-                <a href="categories.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">دسته‌بندی‌ها</a>
-                <a href="questions.php" class="px-4 py-3 text-sm font-medium text-primary-600 bg-primary-50 rounded-xl">سوالات</a>
-                <a href="answers.php" class="px-4 py-3 text-sm font-medium text-dark-600 hover:bg-dark-50 rounded-xl transition">پاسخ‌ها</a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 md:px-6 py-8" x-data="questionsApp()">
+    <main class="max-w-7xl mx-auto px-6 py-10" x-data="questionsApp()">
+
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
             <div>
@@ -454,5 +376,6 @@ requireAdmin();
             };
         }
     </script>
-</body>
-</html>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
+
