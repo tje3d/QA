@@ -24,7 +24,7 @@ if (!$categoryId) {
 }
 
 // Get questions for this category
-$stmt = $pdo->prepare('SELECT * FROM questions WHERE category_id = ? ORDER BY question_group ASC, sort_order ASC, id ASC');
+$stmt = $pdo->prepare('SELECT * FROM questions WHERE category_id = ? ORDER BY sort_order ASC, question_group ASC, id ASC');
 $stmt->execute([(int)$categoryId]);
 $questions = $stmt->fetchAll();
 

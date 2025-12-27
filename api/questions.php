@@ -23,7 +23,7 @@ switch ($method) {
             $stmt = $pdo->prepare('
                 SELECT * FROM questions 
                 WHERE category_id = ? 
-                ORDER BY question_group ASC, sort_order ASC, id ASC
+                ORDER BY sort_order ASC, question_group ASC, id ASC
             ');
             $stmt->execute([(int)$categoryId]);
         } else {
@@ -31,7 +31,7 @@ switch ($method) {
                 SELECT q.*, c.title as category_title 
                 FROM questions q 
                 JOIN categories c ON q.category_id = c.id 
-                ORDER BY q.category_id, q.question_group ASC, q.sort_order ASC, q.id ASC
+                ORDER BY q.category_id, q.sort_order ASC, q.question_group ASC, q.id ASC
             ');
         }
         

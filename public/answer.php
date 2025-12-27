@@ -22,7 +22,7 @@ if (!$category) {
 }
 
 // Get questions
-$stmt = $pdo->prepare('SELECT * FROM questions WHERE category_id = ? ORDER BY question_group ASC, sort_order ASC, id ASC');
+$stmt = $pdo->prepare('SELECT * FROM questions WHERE category_id = ? ORDER BY sort_order ASC, question_group ASC, id ASC');
 $stmt->execute([(int)$categoryId]);
 $questions = $stmt->fetchAll();
 
@@ -628,8 +628,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 },
 
                 get questionGroups() {
-                    const groups = [...new Set(this.questions.map(q => q.question_group || 'عمومی'))];
-                    return groups;
+                    return [...new Set(this.questions.map(q => q.question_group || 'عمومی'))];
                 },
 
                 getGroupQuestions(group) {

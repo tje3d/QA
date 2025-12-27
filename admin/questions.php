@@ -278,8 +278,7 @@ include __DIR__ . '/includes/header.php';
                 },
 
                 get questionGroups() {
-                    const groups = [...new Set(this.questions.map(q => q.question_group || 'عمومی'))];
-                    return groups.sort();
+                    return [...new Set(this.questions.map(q => q.question_group || 'عمومی'))];
                 },
 
                 get existingGroups() {
