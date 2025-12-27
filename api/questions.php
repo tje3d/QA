@@ -53,13 +53,13 @@ switch ($method) {
             jsonResponse(['success' => false, 'message' => 'اطلاعات ناقص است'], 400);
         }
 
-        $validTypes = ['boolean', 'text', 'textarea', 'select', 'multiselect', 'city_province'];
+        $validTypes = ['boolean', 'text', 'textarea', 'select', 'multiselect', 'city_province', 'dropdown'];
         if (!in_array($input['answer_type'], $validTypes)) {
             jsonResponse(['success' => false, 'message' => 'نوع پاسخ نامعتبر است'], 400);
         }
 
         $options = null;
-        if (in_array($input['answer_type'], ['select', 'multiselect']) && !empty($input['options'])) {
+        if (in_array($input['answer_type'], ['select', 'multiselect', 'dropdown']) && !empty($input['options'])) {
             $options = json_encode($input['options'], JSON_UNESCAPED_UNICODE);
         }
 
@@ -93,7 +93,7 @@ switch ($method) {
         }
 
         $options = null;
-        if (in_array($input['answer_type'], ['select', 'multiselect']) && !empty($input['options'])) {
+        if (in_array($input['answer_type'], ['select', 'multiselect', 'dropdown']) && !empty($input['options'])) {
             $options = json_encode($input['options'], JSON_UNESCAPED_UNICODE);
         }
 

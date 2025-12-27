@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT NOT NULL,
     question_text TEXT NOT NULL,
-    answer_type ENUM('boolean', 'text', 'textarea', 'select', 'multiselect', 'city_province') NOT NULL DEFAULT 'text',
+    answer_type ENUM('boolean', 'text', 'textarea', 'select', 'multiselect', 'city_province', 'dropdown') NOT NULL DEFAULT 'text',
     options JSON,
     placeholder VARCHAR(500),
     question_group VARCHAR(255) DEFAULT 'عمومی',
@@ -70,7 +70,8 @@ INSERT INTO questions (category_id, question_text, answer_type, options, placeho
 (@cat1, 'آیا ما را به دیگران توصیه می‌کنید؟', 'boolean', NULL, NULL, 7),
 (@cat1, 'کیفیت محصولات ما را چگونه ارزیابی می‌کنید؟', 'select', '["عالی", "خوب", "متوسط", "ضعیف"]', 'یک گزینه را انتخاب کنید', 8),
 (@cat1, 'مدل دستگاه یا محصول خریداری شده را بنویسید.', 'text', NULL, 'نام محصول', 9),
-(@cat1, 'اگر مشکلی در فرآیند خرید داشتید، لطفاً توضیح دهید.', 'textarea', NULL, 'شرح مشکل...', 10);
+(@cat1, 'اگر مشکلی در فرآیند خرید داشتید، لطفاً توضیح دهید.', 'textarea', NULL, 'شرح مشکل...', 10),
+(@cat1, 'زمان مورد نظر برای تماس پشتیبانی را انتخاب کنید.', 'dropdown', '["صبح (8 تا 12)", "ظهر (12 تا 16)", "عصر (16 تا 20)"]', 'انتخاب زمان', 11);
 
 -- Insert Questions for Category 2
 SET @cat2 = (SELECT id FROM categories WHERE title = 'ارزیابی محیط کاری' LIMIT 1);
@@ -84,4 +85,5 @@ INSERT INTO questions (category_id, question_text, answer_type, options, placeho
 (@cat2, 'آیا تعادل میان کار و زندگی شخصی شما برقرار است؟', 'boolean', NULL, NULL, 7),
 (@cat2, 'فرصت‌های رشد شغلی در شرکت را چگونه ارزیابی می‌کنید؟', 'select', '["زیاد", "متوسط", "کم", "هیچ"]', 'یک گزینه را انتخاب کنید', 8),
 (@cat2, 'عنوان شغلی دقیق خود را بنویسید.', 'text', NULL, 'سمت شغلی', 9),
-(@cat2, 'بزرگترین چالش شما در محیط کار چیست؟', 'textarea', NULL, 'شرح چالش...', 10);
+(@cat2, 'بزرگترین چالش شما در محیط کار چیست؟', 'textarea', NULL, 'شرح چالش...', 10),
+(@cat2, 'نحوه همکاری خود را انتخاب کنید.', 'dropdown', '["تمام وقت", "پاره وقت", "دورکاری", "پروژه‌ای"]', 'انتخاب نوع همکاری', 11);

@@ -100,10 +100,10 @@ include __DIR__ . '/includes/header.php';
                     </h2>
                     
                     <div class="space-y-4 relative z-10">
-                        <a href="categories.php" class="flex items-center justify-between p-5 bg-slate-50 hover:bg-brand-600 hover:text-white rounded-2xl transition-all duration-300 group border border-slate-100">
+                        <a href="categories.php" class="flex items-center justify-between p-5 bg-white hover:bg-brand-600 hover:text-white rounded-2xl transition-all duration-300 group border border-slate-200 shadow-sm hover:shadow-lg hover:shadow-brand-500/20">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 bg-white group-hover:bg-brand-500 rounded-xl flex items-center justify-center shadow-sm transition-colors">
-                                    <svg class="w-5 h-5 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-10 h-10 bg-brand-50 group-hover:bg-brand-500 rounded-xl flex items-center justify-center transition-colors">
+                                    <svg class="w-5 h-5 text-brand-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
                                 </div>
@@ -114,10 +114,10 @@ include __DIR__ . '/includes/header.php';
                             </svg>
                         </a>
 
-                        <a href="questions.php" class="flex items-center justify-between p-5 bg-slate-50 hover:bg-brand-600 hover:text-white rounded-2xl transition-all duration-300 group border border-slate-100">
+                        <a href="questions.php" class="flex items-center justify-between p-5 bg-white hover:bg-brand-600 hover:text-white rounded-2xl transition-all duration-300 group border border-slate-200 shadow-sm hover:shadow-lg hover:shadow-brand-500/20">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 bg-white group-hover:bg-brand-500 rounded-xl flex items-center justify-center shadow-sm transition-colors">
-                                    <svg class="w-5 h-5 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-10 h-10 bg-brand-50 group-hover:bg-brand-500 rounded-xl flex items-center justify-center transition-colors">
+                                    <svg class="w-5 h-5 text-brand-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
                                 </div>

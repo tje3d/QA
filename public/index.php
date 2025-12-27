@@ -56,6 +56,11 @@ $categories = $stmt->fetchAll();
         * { font-family: 'Vazirmatn', sans-serif; }
         [x-cloak] { display: none !important; }
         
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
         .ornament-corner {
             position: absolute;
             width: 80px;
@@ -208,15 +213,17 @@ $categories = $stmt->fetchAll();
                                     </div>
 
                                     <a href="answer.php?category=<?= $cat['id'] ?>" 
-                                       class="block bg-aqr-green hover:bg-aqr-green-light py-4 text-center text-white font-bold text-lg transition-colors relative overflow-hidden group/btn">
-                                        <span class="relative z-10 flex items-center justify-center gap-2">
+                                       class="block bg-aqr-gold hover:bg-aqr-gold-dark py-5 text-center text-aqr-green-dark font-black text-xl transition-all duration-300 relative overflow-hidden group/btn shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+                                        <span class="relative z-10 flex items-center justify-center gap-3">
                                             شروع پاسخ‌دهی
-                                            <svg class="w-5 h-5 transition-transform duration-300 group-hover/btn:-translate-x-1 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                            <svg class="w-6 h-6 transition-transform duration-300 group-hover/btn:-translate-x-2 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                                             </svg>
                                         </span>
                                         <!-- Pattern Overlay on Button -->
-                                        <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
+                                        <div class="absolute inset-0 opacity-20 bg-islamic-pattern bg-[length:100px_100px]"></div>
+                                        <!-- Glow effect on hover -->
+                                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]"></div>
                                     </a>
                                 </div>
 

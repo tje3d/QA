@@ -18,8 +18,8 @@ include __DIR__ . '/includes/header.php';
                 <p class="text-dark-400 mt-1">مدیریت سوالات هر دسته‌بندی</p>
             </div>
             <button @click="openModal()" :disabled="!selectedCategory" 
-                class="inline-flex items-center gap-2 px-5 py-2.5 bg-dark-900 hover:bg-dark-800 text-white text-sm font-medium rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                class="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold rounded-2xl transition-all shadow-lg shadow-brand-500/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
                 سوال جدید
@@ -63,8 +63,8 @@ include __DIR__ . '/includes/header.php';
             </div>
             <h3 class="text-lg font-semibold text-dark-900 mb-2">هنوز سوالی ایجاد نشده</h3>
             <p class="text-dark-400 mb-6">برای این دسته‌بندی سوالی تعریف نشده است</p>
-            <button @click="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-xl transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button @click="openModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold rounded-2xl transition-all shadow-lg shadow-brand-500/20 active:scale-95">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
                 اولین سوال
@@ -92,6 +92,7 @@ include __DIR__ . '/includes/header.php';
                                                     'bg-blue-50 text-blue-600': q.answer_type === 'text',
                                                     'bg-green-50 text-green-600': q.answer_type === 'boolean',
                                                     'bg-purple-50 text-purple-600': q.answer_type === 'textarea',
+                                                    'bg-yellow-50 text-yellow-600': q.answer_type === 'dropdown',
                                                     'bg-orange-50 text-orange-600': q.answer_type === 'select',
                                                     'bg-pink-50 text-pink-600': q.answer_type === 'multiselect',
                                                     'bg-cyan-50 text-cyan-600': q.answer_type === 'city_province'
@@ -101,14 +102,14 @@ include __DIR__ . '/includes/header.php';
                                             <span x-show="q.placeholder" class="text-dark-300 text-xs">راهنما: <span x-text="q.placeholder?.substring(0,20) + '...'"></span></span>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-1">
-                                        <button @click="editQuestion(q)" class="w-9 h-9 flex items-center justify-center text-dark-400 hover:text-dark-800 hover:bg-dark-100 rounded-lg transition">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="flex items-center gap-2">
+                                        <button @click="editQuestion(q)" class="w-10 h-10 flex items-center justify-center bg-brand-50 text-brand-600 hover:bg-brand-600 hover:text-white rounded-xl transition-all shadow-sm">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                             </svg>
                                         </button>
-                                        <button @click="deleteQuestion(q.id)" class="w-9 h-9 flex items-center justify-center text-dark-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <button @click="deleteQuestion(q.id)" class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                             </svg>
                                         </button>
@@ -143,6 +144,7 @@ include __DIR__ . '/includes/header.php';
                                 <option value="text">متن کوتاه</option>
                                 <option value="textarea">متن بلند</option>
                                 <option value="boolean">بله/خیر</option>
+                                <option value="dropdown">کشویی (Select)</option>
                                 <option value="select">انتخابی (تک)</option>
                                 <option value="multiselect">انتخابی (چند)</option>
                                 <option value="city_province">استان و شهر</option>
@@ -175,8 +177,8 @@ include __DIR__ . '/includes/header.php';
                         </div>
                     </div>
 
-                    <!-- Options for select/multiselect -->
-                    <div x-show="form.answer_type === 'select' || form.answer_type === 'multiselect'" class="bg-dark-50 rounded-xl p-4">
+                    <!-- Options for select/multiselect/dropdown -->
+                    <div x-show="form.answer_type === 'select' || form.answer_type === 'multiselect' || form.answer_type === 'dropdown'" class="bg-dark-50 rounded-xl p-4">
                         <label class="block text-dark-800 text-sm font-medium mb-3">گزینه‌ها</label>
                         <div class="space-y-2">
                             <template x-for="(opt, index) in form.options" :key="index">
@@ -202,12 +204,12 @@ include __DIR__ . '/includes/header.php';
 
                     <div class="flex gap-3 pt-2">
                         <button type="submit" :disabled="saving"
-                            class="flex-1 py-3 bg-dark-900 hover:bg-dark-800 text-white font-medium rounded-xl transition disabled:opacity-50">
+                            class="flex-1 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-brand-500/20 active:scale-95 disabled:opacity-50">
                             <span x-show="!saving" x-text="editingId ? 'به‌روزرسانی' : 'ذخیره'"></span>
                             <span x-show="saving">در حال ذخیره...</span>
                         </button>
                         <button type="button" @click="closeModal()"
-                            class="px-6 py-3 bg-dark-100 hover:bg-dark-200 text-dark-800 font-medium rounded-xl transition">
+                            class="px-8 py-4 bg-white border border-slate-200 text-slate-700 font-bold rounded-2xl transition-all hover:bg-slate-50 active:scale-95">
                             انصراف
                         </button>
                     </div>
@@ -242,6 +244,7 @@ include __DIR__ . '/includes/header.php';
                     'text': 'متن کوتاه',
                     'textarea': 'متن بلند',
                     'boolean': 'بله/خیر',
+                    'dropdown': 'کشویی',
                     'select': 'انتخابی (تک)',
                     'multiselect': 'انتخابی (چند)',
                     'city_province': 'استان و شهر'

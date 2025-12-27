@@ -17,8 +17,8 @@ include __DIR__ . '/includes/header.php';
                 <h1 class="text-2xl font-bold text-dark-900">دسته‌بندی‌ها</h1>
                 <p class="text-dark-400 mt-1">مدیریت دسته‌بندی‌های سوالات</p>
             </div>
-            <button @click="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-dark-900 hover:bg-dark-800 text-white text-sm font-medium rounded-xl transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button @click="openModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold rounded-2xl transition-all shadow-lg shadow-brand-500/20 active:scale-95">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
                 دسته‌بندی جدید
@@ -39,8 +39,8 @@ include __DIR__ . '/includes/header.php';
             </div>
             <h3 class="text-lg font-semibold text-dark-900 mb-2">هنوز دسته‌بندی‌ای ایجاد نشده</h3>
             <p class="text-dark-400 mb-6">برای شروع یک دسته‌بندی جدید بسازید</p>
-            <button @click="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-xl transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button @click="openModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold rounded-2xl transition-all shadow-lg shadow-brand-500/20 active:scale-95">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
                 اولین دسته‌بندی
@@ -58,13 +58,13 @@ include __DIR__ . '/includes/header.php';
                             </svg>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button @click="editCategory(cat)" class="w-8 h-8 flex items-center justify-center text-dark-400 hover:text-dark-800 hover:bg-dark-50 rounded-lg transition">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button @click="editCategory(cat)" class="w-10 h-10 flex items-center justify-center bg-brand-50 text-brand-600 hover:bg-brand-600 hover:text-white rounded-xl transition-all shadow-sm">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
                             </button>
-                            <button @click="deleteCategory(cat.id)" class="w-8 h-8 flex items-center justify-center text-dark-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button @click="deleteCategory(cat.id)" class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
                             </button>
@@ -101,12 +101,12 @@ include __DIR__ . '/includes/header.php';
                     </div>
                     <div class="flex gap-3 pt-2">
                         <button type="submit" :disabled="saving"
-                            class="flex-1 py-3 bg-dark-900 hover:bg-dark-800 text-white font-medium rounded-xl transition disabled:opacity-50">
+                            class="flex-1 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-brand-500/20 active:scale-95 disabled:opacity-50">
                             <span x-show="!saving" x-text="editingId ? 'به‌روزرسانی' : 'ذخیره'"></span>
                             <span x-show="saving">در حال ذخیره...</span>
                         </button>
                         <button type="button" @click="closeModal()"
-                            class="px-6 py-3 bg-dark-100 hover:bg-dark-200 text-dark-800 font-medium rounded-xl transition">
+                            class="px-8 py-4 bg-white border border-slate-200 text-slate-700 font-bold rounded-2xl transition-all hover:bg-slate-50 active:scale-95">
                             انصراف
                         </button>
                     </div>
