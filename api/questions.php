@@ -63,18 +63,38 @@ switch ($method) {
             $options = json_encode($input['options'], JSON_UNESCAPED_UNICODE);
         }
 
+        $sortOrder = (int)($input['sort_order'] ?? 0);
+        $categoryId = (int)$input['category_id'];
+
+        // Get count of questions in this category to limit sort_order
+        $stmt = $pdo->prepare('SELECT COUNT(*) FROM questions WHERE category_id = ?');
+        $stmt->execute([$categoryId]);
+        $count = (int)$stmt->fetchColumn();
+        
+        // Clamp sortOrder between 1 and count + 1
+        if ($sortOrder < 1) $sortOrder = 1;
+        if ($sortOrder > $count + 1) $sortOrder = $count + 1;
+
+        // Shift existing questions' sort_order
+        $stmt = $pdo->prepare('
+            UPDATE questions 
+            SET sort_order = sort_order + 1 
+            WHERE category_id = ? AND sort_order >= ?
+        ');
+        $stmt->execute([$categoryId, $sortOrder]);
+
         $stmt = $pdo->prepare('
             INSERT INTO questions (category_id, question_text, answer_type, options, placeholder, question_group, sort_order) 
             VALUES (?, ?, ?, ?, ?, ?, ?)
         ');
         $stmt->execute([
-            (int)$input['category_id'],
+            $categoryId,
             sanitize($input['question_text']),
             $input['answer_type'],
             $options,
             sanitize($input['placeholder'] ?? ''),
             sanitize($input['question_group'] ?? 'عمومی'),
-            (int)($input['sort_order'] ?? 0)
+            $sortOrder
         ]);
 
         jsonResponse([
@@ -97,19 +117,76 @@ switch ($method) {
             $options = json_encode($input['options'], JSON_UNESCAPED_UNICODE);
         }
 
+        $id = (int)$input['id'];
+        $newSortOrder = (int)($input['sort_order'] ?? 0);
+        $newCategoryId = (int)$input['category_id'];
+
+        // Get count of questions in the target category to limit sort_order
+        $stmt = $pdo->prepare('SELECT COUNT(*) FROM questions WHERE category_id = ?');
+        $stmt->execute([$newCategoryId]);
+        $count = (int)$stmt->fetchColumn();
+
+        // Get current question info to see if sort_order or category changed
+        $stmt = $pdo->prepare('SELECT category_id, sort_order FROM questions WHERE id = ?');
+        $stmt->execute([$id]);
+        $current = $stmt->fetch();
+
+        if ($current) {
+            $oldSortOrder = (int)$current['sort_order'];
+            $oldCategoryId = (int)$current['category_id'];
+
+            // Adjust count if it's the same category (max is count, if different category max is count + 1)
+            $maxOrder = ($newCategoryId === $oldCategoryId) ? $count : $count + 1;
+            
+            // Clamp newSortOrder between 1 and maxOrder
+            if ($newSortOrder < 1) $newSortOrder = 1;
+            if ($newSortOrder > $maxOrder) $newSortOrder = $maxOrder;
+
+            if ($newCategoryId !== $oldCategoryId) {
+                // Category changed: 
+                // 1. Shift down items in OLD category to close the gap
+                $stmt = $pdo->prepare('UPDATE questions SET sort_order = sort_order - 1 WHERE category_id = ? AND sort_order > ?');
+                $stmt->execute([$oldCategoryId, $oldSortOrder]);
+
+                // 2. Shift up items in NEW category to make room
+                $stmt = $pdo->prepare('UPDATE questions SET sort_order = sort_order + 1 WHERE category_id = ? AND sort_order >= ?');
+                $stmt->execute([$newCategoryId, $newSortOrder]);
+            } elseif ($newSortOrder !== $oldSortOrder) {
+                // Same category, different order
+                if ($newSortOrder > $oldSortOrder) {
+                    // Moving down: shift items between old and new orders UP (decrement sort_order)
+                    $stmt = $pdo->prepare('
+                        UPDATE questions 
+                        SET sort_order = sort_order - 1 
+                        WHERE category_id = ? AND sort_order > ? AND sort_order <= ? AND id != ?
+                    ');
+                    $stmt->execute([$newCategoryId, $oldSortOrder, $newSortOrder, $id]);
+                } else {
+                    // Moving up: shift items between new and old orders DOWN (increment sort_order)
+                    $stmt = $pdo->prepare('
+                        UPDATE questions 
+                        SET sort_order = sort_order + 1 
+                        WHERE category_id = ? AND sort_order >= ? AND sort_order < ? AND id != ?
+                    ');
+                    $stmt->execute([$newCategoryId, $newSortOrder, $oldSortOrder, $id]);
+                }
+            }
+        }
+
         $stmt = $pdo->prepare('
             UPDATE questions 
-            SET question_text = ?, answer_type = ?, options = ?, placeholder = ?, question_group = ?, sort_order = ? 
+            SET category_id = ?, question_text = ?, answer_type = ?, options = ?, placeholder = ?, question_group = ?, sort_order = ? 
             WHERE id = ?
         ');
         $stmt->execute([
+            $newCategoryId,
             sanitize($input['question_text']),
             $input['answer_type'],
             $options,
             sanitize($input['placeholder'] ?? ''),
             sanitize($input['question_group'] ?? 'عمومی'),
-            (int)($input['sort_order'] ?? 0),
-            (int)$input['id']
+            $newSortOrder,
+            $id
         ]);
 
         jsonResponse(['success' => true, 'message' => 'سوال با موفقیت به‌روزرسانی شد']);
@@ -123,10 +200,33 @@ switch ($method) {
             jsonResponse(['success' => false, 'message' => 'شناسه الزامی است'], 400);
         }
 
-        $stmt = $pdo->prepare('DELETE FROM questions WHERE id = ?');
-        $stmt->execute([(int)$id]);
+        $id = (int)$id;
 
-        jsonResponse(['success' => true, 'message' => 'سوال با موفقیت حذف شد']);
+        // Get info before deleting to shift orders
+        $stmt = $pdo->prepare('SELECT category_id, sort_order FROM questions WHERE id = ?');
+        $stmt->execute([$id]);
+        $current = $stmt->fetch();
+
+        if ($current) {
+            $categoryId = (int)$current['category_id'];
+            $sortOrder = (int)$current['sort_order'];
+
+            // Delete the question
+            $stmt = $pdo->prepare('DELETE FROM questions WHERE id = ?');
+            $stmt->execute([$id]);
+
+            // Shift subsequent questions' sort_order down
+            $stmt = $pdo->prepare('
+                UPDATE questions 
+                SET sort_order = sort_order - 1 
+                WHERE category_id = ? AND sort_order > ?
+            ');
+            $stmt->execute([$categoryId, $sortOrder]);
+
+            jsonResponse(['success' => true, 'message' => 'سوال با موفقیت حذف شد']);
+        } else {
+            jsonResponse(['success' => false, 'message' => 'سوال یافت نشد'], 404);
+        }
         break;
 
     default:

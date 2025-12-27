@@ -103,6 +103,11 @@ include __DIR__ . '/includes/header.php';
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2">
+                                        <button @click="duplicateQuestion(q)" title="کپی کردن" class="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path>
+                                            </svg>
+                                        </button>
                                         <button @click="editQuestion(q)" class="w-10 h-10 flex items-center justify-center bg-brand-50 text-brand-600 hover:bg-brand-600 hover:text-white rounded-xl transition-all shadow-sm">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -152,21 +157,24 @@ include __DIR__ . '/includes/header.php';
                         </div>
                         <div>
                             <label class="block text-dark-800 text-sm font-medium mb-2">گروه سوال</label>
-                            <input type="text" x-model="form.question_group" list="groupList"
+                            <input type="text" x-model="form.question_group"
                                 class="w-full px-4 py-3 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition"
                                 placeholder="عمومی">
-                            <datalist id="groupList">
+                            <div class="flex flex-wrap gap-2 mt-2">
                                 <template x-for="g in existingGroups" :key="g">
-                                    <option :value="g"></option>
+                                    <button type="button" @click="form.question_group = g"
+                                        class="px-3 py-1.5 bg-dark-50 hover:bg-dark-100 text-dark-600 text-xs font-medium rounded-lg transition-colors border border-dark-200"
+                                        :class="{'bg-primary-50 border-primary-200 text-primary-600': form.question_group === g}"
+                                        x-text="g"></button>
                                 </template>
-                            </datalist>
+                            </div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-dark-800 text-sm font-medium mb-2">ترتیب نمایش</label>
-                            <input type="number" x-model="form.sort_order" min="0"
+                            <input type="number" x-model="form.sort_order" min="1" :max="questions.length + (editingId ? 0 : 1)"
                                 class="w-full px-4 py-3 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition">
                         </div>
                         <div x-show="form.answer_type === 'text' || form.answer_type === 'textarea'">
@@ -295,7 +303,7 @@ include __DIR__ . '/includes/header.php';
 
                 openModal() {
                     this.editingId = null;
-                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length, options: [], placeholder: '', question_group: 'عمومی' };
+                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length + 1, options: [], placeholder: '', question_group: 'عمومی' };
                     this.showModal = true;
                 },
 
@@ -369,6 +377,37 @@ include __DIR__ . '/includes/header.php';
                         }
                     } catch (e) {
                         this.showToast('خطا در حذف', 'error');
+                    }
+                },
+
+                async duplicateQuestion(q) {
+                    if (!confirm('آیا از کپی کردن این سوال اطمینان دارید؟')) return;
+                    try {
+                        const body = { 
+                            category_id: this.selectedCategory,
+                            question_text: q.question_text + ' (کپی)', 
+                            answer_type: q.answer_type, 
+                            sort_order: parseInt(q.sort_order) + 1, 
+                            options: q.options || [],
+                            placeholder: q.placeholder || '',
+                            question_group: q.question_group || 'عمومی'
+                        };
+
+                        const res = await fetch('../api/questions.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(body)
+                        });
+                        const data = await res.json();
+                        
+                        if (data.success) {
+                            this.showToast('سوال با موفقیت کپی شد', 'success');
+                            await this.loadQuestions();
+                        } else {
+                            this.showToast(data.message, 'error');
+                        }
+                    } catch (e) {
+                        this.showToast('خطا در کپی سوال', 'error');
                     }
                 },
 
