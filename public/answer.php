@@ -345,7 +345,12 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                             <!-- Question Card -->
                             <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-card border-4 border-aqr-gold/20 mb-6 relative overflow-visible">
                                 <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-20 h-2 bg-aqr-gold rounded-full opacity-30"></div>
-                                <h2 class="text-2xl md:text-3xl font-black text-aqr-green-dark leading-relaxed mb-2" x-text="currentQuestion.question_text"></h2>
+                                <div class="flex items-start justify-between gap-4">
+                                    <h2 class="text-2xl md:text-3xl font-black text-aqr-green-dark leading-relaxed mb-2" x-text="currentQuestion.question_text"></h2>
+                                    <template x-if="currentQuestion.is_required">
+                                        <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm whitespace-nowrap">الزامی</span>
+                                    </template>
+                                </div>
                             </div>
 
                             <!-- Interaction Area -->
@@ -643,6 +648,12 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 get isCurrentAnswerValid() {
                     if (!this.currentQuestion) return true;
                     const val = this.currentAnswer;
+                    
+                    // Check if required
+                    if (this.currentQuestion.is_required && (!val || (Array.isArray(val) && val.length === 0) || (typeof val === 'object' && !Array.isArray(val) && !val.province))) {
+                        return false;
+                    }
+
                     if (this.currentQuestion.answer_type === 'number') {
                         if (val === '') return true; // Allow empty as "not answered yet"
                         const num = parseFloat(val);

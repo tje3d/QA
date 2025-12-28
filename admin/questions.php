@@ -205,6 +205,16 @@ include __DIR__ . '/includes/header.php';
                         </div>
                     </div>
 
+                    <div>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="relative">
+                                <input type="checkbox" x-model="form.is_required" class="sr-only peer">
+                                <div class="w-12 h-6 bg-dark-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-500/20 rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                            </div>
+                            <span class="text-dark-800 text-sm font-medium group-hover:text-dark-900 transition-colors">پاسخ به این سوال الزامی است</span>
+                        </label>
+                    </div>
+
                     <!-- Number config (Min/Max) -->
                     <div x-show="form.answer_type === 'number'" class="bg-dark-50 rounded-xl p-4 grid grid-cols-2 gap-4">
                         <div>
@@ -282,7 +292,7 @@ include __DIR__ . '/includes/header.php';
                 showModal: false,
                 saving: false,
                 editingId: null,
-                form: { question_text: '', answer_type: 'text', sort_order: 0, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null },
+                form: { question_text: '', answer_type: 'text', sort_order: 0, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null, is_required: false },
                 toast: { show: false, message: '', type: 'success' },
                 answerTypeLabels: {
                     'text': 'متن کوتاه',
@@ -339,7 +349,7 @@ include __DIR__ . '/includes/header.php';
 
                 openModal() {
                     this.editingId = null;
-                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length + 1, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null };
+                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length + 1, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null, is_required: false };
                     this.showModal = true;
                 },
 
@@ -350,14 +360,15 @@ include __DIR__ . '/includes/header.php';
                 editQuestion(q) {
                     this.editingId = q.id;
                     this.form = { 
-                                question_text: q.question_text, 
-                                answer_type: q.answer_type, 
-                                sort_order: q.sort_order, 
-                                options: Array.isArray(q.options) ? q.options : [],
-                                placeholder: q.placeholder || '',
-                                question_group: q.question_group || 'عمومی',
-                                min: (!Array.isArray(q.options) && q.options) ? q.options.min : null,
-                                max: (!Array.isArray(q.options) && q.options) ? q.options.max : null
+                                 question_text: q.question_text, 
+                                 answer_type: q.answer_type, 
+                                 sort_order: q.sort_order, 
+                                 options: Array.isArray(q.options) ? q.options : [],
+                                 placeholder: q.placeholder || '',
+                                 question_group: q.question_group || 'عمومی',
+                                 min: (!Array.isArray(q.options) && q.options) ? q.options.min : null,
+                                 max: (!Array.isArray(q.options) && q.options) ? q.options.max : null,
+                                 is_required: Boolean(parseInt(q.is_required))
                     };
                     this.showModal = true;
                 },
@@ -444,6 +455,7 @@ include __DIR__ . '/includes/header.php';
                             sort_order: parseInt(q.sort_order) + 1, 
                             options: options,
                             placeholder: q.placeholder || '',
+                            is_required: q.is_required,
                             question_group: q.question_group || 'عمومی'
                         };
 

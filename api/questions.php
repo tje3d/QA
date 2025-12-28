@@ -84,8 +84,8 @@ switch ($method) {
         $stmt->execute([$categoryId, $sortOrder]);
 
         $stmt = $pdo->prepare('
-            INSERT INTO questions (category_id, question_text, answer_type, options, placeholder, question_group, sort_order) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO questions (category_id, question_text, answer_type, options, placeholder, is_required, question_group, sort_order) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ');
         $stmt->execute([
             $categoryId,
@@ -93,6 +93,7 @@ switch ($method) {
             $input['answer_type'],
             $options,
             sanitize($input['placeholder'] ?? ''),
+            (bool)($input['is_required'] ?? false) ? 1 : 0,
             sanitize($input['question_group'] ?? 'عمومی'),
             $sortOrder
         ]);
@@ -175,7 +176,7 @@ switch ($method) {
 
         $stmt = $pdo->prepare('
             UPDATE questions 
-            SET category_id = ?, question_text = ?, answer_type = ?, options = ?, placeholder = ?, question_group = ?, sort_order = ? 
+            SET category_id = ?, question_text = ?, answer_type = ?, options = ?, placeholder = ?, is_required = ?, question_group = ?, sort_order = ? 
             WHERE id = ?
         ');
         $stmt->execute([
@@ -184,6 +185,7 @@ switch ($method) {
             $input['answer_type'],
             $options,
             sanitize($input['placeholder'] ?? ''),
+            (bool)($input['is_required'] ?? false) ? 1 : 0,
             sanitize($input['question_group'] ?? 'عمومی'),
             $newSortOrder,
             $id

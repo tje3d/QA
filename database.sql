@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS questions (
     answer_type ENUM('boolean', 'text', 'textarea', 'select', 'multiselect', 'city_province', 'dropdown', 'number') NOT NULL DEFAULT 'text',
     options JSON,
     placeholder VARCHAR(500),
+    is_required BOOLEAN DEFAULT FALSE,
     question_group VARCHAR(255) DEFAULT 'عمومی',
     sort_order INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
