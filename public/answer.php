@@ -410,6 +410,33 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                                     </div>
                                 </template>
 
+                                <!-- Number -->
+                                <template x-if="currentQuestion.answer_type === 'number'">
+                                    <div class="relative">
+                                        <input 
+                                            type="number"
+                                            x-model="currentAnswer"
+                                            @input="debounceSave()"
+                                            @keydown.enter="handleEnter($event)"
+                                            :min="currentQuestion.options?.min"
+                                            :max="currentQuestion.options?.max"
+                                            class="w-full px-6 py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl text-aqr-green-dark text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg"
+                                            :placeholder="currentQuestion.placeholder || 'عدد مورد نظر را وارد کنید...'">
+                                        
+                                        <div class="mt-3 flex flex-wrap gap-4 text-xs font-bold text-white drop-shadow-md">
+                                            <template x-if="currentQuestion.options?.min">
+                                                <span>حداقل: <span x-text="currentQuestion.options.min"></span></span>
+                                            </template>
+                                            <template x-if="currentQuestion.options?.max">
+                                                <span>حداکثر: <span x-text="currentQuestion.options.max"></span></span>
+                                            </template>
+                                            <template x-if="!isCurrentAnswerValid">
+                                                <span class="text-red-400 bg-white/90 px-2 py-0.5 rounded shadow-sm">مقدار وارد شده نامعتبر است</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+
                                 <!-- Select -->
                                 <template x-if="currentQuestion.answer_type === 'select'">
                                     <div class="space-y-3">
@@ -527,7 +554,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                         <span class="sm:hidden">قبلی</span>
                     </button>
                     
-                    <button @click="nextQuestion()" :disabled="currentIndex === questions.length - 1"
+                    <button @click="nextQuestion()" :disabled="currentIndex === questions.length - 1 || !isCurrentAnswerValid"
                         class="flex-1 sm:flex-none justify-center px-6 md:px-12 py-4 bg-aqr-gold hover:bg-aqr-gold-dark text-aqr-green-dark font-black rounded-2xl shadow-[0_10px_25px_-5px_rgba(212,175,55,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(212,175,55,0.5)] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-sm md:text-xl">
                         <span>سوال بعدی</span>
                         <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -607,7 +634,25 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                             return { province: '', city: '' };
                         }
                     }
+                    if (this.currentQuestion.answer_type === 'number' && answer === undefined) {
+                        return '';
+                    }
                     return answer || '';
+                },
+
+                get isCurrentAnswerValid() {
+                    if (!this.currentQuestion) return true;
+                    const val = this.currentAnswer;
+                    if (this.currentQuestion.answer_type === 'number') {
+                        if (val === '') return true; // Allow empty as "not answered yet"
+                        const num = parseFloat(val);
+                        if (isNaN(num)) return false;
+                        const min = this.currentQuestion.options?.min;
+                        const max = this.currentQuestion.options?.max;
+                        if (min !== null && min !== undefined && min !== '' && num < parseFloat(min)) return false;
+                        if (max !== null && max !== undefined && max !== '' && num > parseFloat(max)) return false;
+                    }
+                    return true;
                 },
 
                 set currentAnswer(value) {
@@ -749,6 +794,8 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     if (this.currentQuestion.answer_type === 'textarea' && e.shiftKey) return;
                     e.preventDefault();
                     
+                    if (!this.isCurrentAnswerValid) return;
+
                     if (this.currentAnswer && this.currentAnswer.toString().trim().length > 0) {
                         clearTimeout(this.debounceTimer);
                         this.saveAnswer();

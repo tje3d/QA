@@ -171,6 +171,7 @@ include __DIR__ . '/includes/header.php';
                                 <option value="dropdown">کشویی (Select)</option>
                                 <option value="select">انتخابی (تک)</option>
                                 <option value="multiselect">انتخابی (چند)</option>
+                                <option value="number">عدد</option>
                                 <option value="city_province">استان و شهر</option>
                             </select>
                         </div>
@@ -196,11 +197,27 @@ include __DIR__ . '/includes/header.php';
                             <input type="number" x-model="form.sort_order" min="1" :max="questions.length + (editingId ? 0 : 1)"
                                 class="w-full px-4 py-3 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition">
                         </div>
-                        <div x-show="form.answer_type === 'text' || form.answer_type === 'textarea'">
+                        <div x-show="form.answer_type === 'text' || form.answer_type === 'textarea' || form.answer_type === 'number'">
                             <label class="block text-dark-800 text-sm font-medium mb-2">متن راهنما (Placeholder)</label>
                             <input type="text" x-model="form.placeholder"
                                 class="w-full px-4 py-3 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition"
                                 placeholder="مثال: نام و نام خانوادگی">
+                        </div>
+                    </div>
+
+                    <!-- Number config (Min/Max) -->
+                    <div x-show="form.answer_type === 'number'" class="bg-dark-50 rounded-xl p-4 grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-dark-800 text-sm font-medium mb-2">حداقل مقدار (اختیاری)</label>
+                            <input type="number" x-model="form.min"
+                                class="w-full px-4 py-3 bg-white border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 transition"
+                                placeholder="مثلاً: 0">
+                        </div>
+                        <div>
+                            <label class="block text-dark-800 text-sm font-medium mb-2">حداکثر مقدار (اختیاری)</label>
+                            <input type="number" x-model="form.max"
+                                class="w-full px-4 py-3 bg-white border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 transition"
+                                placeholder="مثلاً: 100">
                         </div>
                     </div>
 
@@ -265,7 +282,7 @@ include __DIR__ . '/includes/header.php';
                 showModal: false,
                 saving: false,
                 editingId: null,
-                form: { question_text: '', answer_type: 'text', sort_order: 0, options: [], placeholder: '', question_group: 'عمومی' },
+                form: { question_text: '', answer_type: 'text', sort_order: 0, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null },
                 toast: { show: false, message: '', type: 'success' },
                 answerTypeLabels: {
                     'text': 'متن کوتاه',
@@ -274,6 +291,7 @@ include __DIR__ . '/includes/header.php';
                     'dropdown': 'کشویی',
                     'select': 'انتخابی (تک)',
                     'multiselect': 'انتخابی (چند)',
+                    'number': 'عدد',
                     'city_province': 'استان و شهر'
                 },
 
@@ -321,7 +339,7 @@ include __DIR__ . '/includes/header.php';
 
                 openModal() {
                     this.editingId = null;
-                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length + 1, options: [], placeholder: '', question_group: 'عمومی' };
+                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length + 1, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null };
                     this.showModal = true;
                 },
 
@@ -332,12 +350,14 @@ include __DIR__ . '/includes/header.php';
                 editQuestion(q) {
                     this.editingId = q.id;
                     this.form = { 
-                        question_text: q.question_text, 
-                        answer_type: q.answer_type, 
-                        sort_order: q.sort_order, 
-                        options: q.options || [],
-                        placeholder: q.placeholder || '',
-                        question_group: q.question_group || 'عمومی'
+                                question_text: q.question_text, 
+                                answer_type: q.answer_type, 
+                                sort_order: q.sort_order, 
+                                options: Array.isArray(q.options) ? q.options : [],
+                                placeholder: q.placeholder || '',
+                                question_group: q.question_group || 'عمومی',
+                                min: (!Array.isArray(q.options) && q.options) ? q.options.min : null,
+                                max: (!Array.isArray(q.options) && q.options) ? q.options.max : null
                     };
                     this.showModal = true;
                 },
@@ -354,10 +374,19 @@ include __DIR__ . '/includes/header.php';
                     this.saving = true;
                     try {
                         const method = this.editingId ? 'PUT' : 'POST';
+                        
+                        let options = this.form.options.filter(o => o.trim() !== '');
+                        if (this.form.answer_type === 'number') {
+                            options = {
+                                min: this.form.min,
+                                max: this.form.max
+                            };
+                        }
+
                         const body = { 
                             ...this.form, 
                             category_id: this.selectedCategory, 
-                            options: this.form.options.filter(o => o.trim() !== ''),
+                            options: options,
                             question_group: this.form.question_group || 'عمومی'
                         };
                         if (this.editingId) body.id = this.editingId;
@@ -401,12 +430,19 @@ include __DIR__ . '/includes/header.php';
                 async duplicateQuestion(q) {
                     if (!confirm('آیا از کپی کردن این سوال اطمینان دارید؟')) return;
                     try {
+                        let options = q.options || [];
+                        if (q.answer_type === 'number') {
+                            options = q.options;
+                        } else if (Array.isArray(q.options)) {
+                            options = q.options;
+                        }
+
                         const body = { 
                             category_id: this.selectedCategory,
                             question_text: q.question_text + ' (کپی)', 
                             answer_type: q.answer_type, 
                             sort_order: parseInt(q.sort_order) + 1, 
-                            options: q.options || [],
+                            options: options,
                             placeholder: q.placeholder || '',
                             question_group: q.question_group || 'عمومی'
                         };
