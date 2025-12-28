@@ -574,11 +574,14 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                         <span class="sm:hidden">قبلی</span>
                     </button>
                     
-                    <button @click="nextQuestion()" :disabled="currentIndex === questions.length - 1 || !isCurrentAnswerValid"
+                    <button @click="nextQuestion()" :disabled="!isCurrentAnswerValid"
                         class="flex-1 sm:flex-none justify-center px-6 md:px-12 py-4 bg-aqr-gold hover:bg-aqr-gold-dark text-aqr-green-dark font-black rounded-2xl shadow-[0_10px_25px_-5px_rgba(212,175,55,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(212,175,55,0.5)] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-sm md:text-xl">
-                        <span>سوال بعدی</span>
-                        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span x-text="currentIndex === questions.length - 1 ? 'ثبت نهایی' : 'سوال بعدی'"></span>
+                        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="currentIndex !== questions.length - 1">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                        <svg x-show="currentIndex === questions.length - 1" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </button>
                 </div>
@@ -820,7 +823,14 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 },
 
                 nextQuestion() {
-                    if (this.currentIndex < this.questions.length - 1) this.currentIndex++;
+                    if (this.currentIndex < this.questions.length - 1) {
+                        this.currentIndex++;
+                    } else if (this.isCurrentAnswerValid) {
+                        // On last question, show completion modal if all are answered
+                        if (this.answeredCount === this.questions.length) {
+                            this.showCompletionModal = true;
+                        }
+                    }
                 },
 
                 setAnswer(value, autoAdvance = false) {
@@ -891,10 +901,6 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                         });
                         
                         this.lastSaved = true;
-                        
-                        if (this.answeredCount === this.questions.length) {
-                            setTimeout(() => { this.showCompletionModal = true; }, 500);
-                        }
                     } catch (e) {
                         console.error(e);
                     }
