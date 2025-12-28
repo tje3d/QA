@@ -59,7 +59,7 @@ switch ($method) {
         }
 
         $options = null;
-        if (in_array($input['answer_type'], ['select', 'multiselect', 'dropdown', 'number']) && !empty($input['options'])) {
+        if (in_array($input['answer_type'], ['select', 'multiselect', 'dropdown', 'number', 'city_province']) && !empty($input['options'])) {
             $options = json_encode($input['options'], JSON_UNESCAPED_UNICODE);
         }
 
@@ -114,7 +114,7 @@ switch ($method) {
         }
 
         $options = null;
-        if (in_array($input['answer_type'], ['select', 'multiselect', 'dropdown', 'number']) && !empty($input['options'])) {
+        if (in_array($input['answer_type'], ['select', 'multiselect', 'dropdown', 'number', 'city_province']) && !empty($input['options'])) {
             $options = json_encode($input['options'], JSON_UNESCAPED_UNICODE);
         }
 

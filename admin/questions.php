@@ -231,6 +231,17 @@ include __DIR__ . '/includes/header.php';
                         </div>
                     </div>
 
+                    <!-- City/Province config -->
+                    <div x-show="form.answer_type === 'city_province'" class="bg-dark-50 rounded-xl p-4">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="relative">
+                                <input type="checkbox" x-model="form.allow_other_countries" class="sr-only peer">
+                                <div class="w-12 h-6 bg-dark-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-500/20 rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                            </div>
+                            <span class="text-dark-800 text-sm font-medium group-hover:text-dark-900 transition-colors">امکان انتخاب «سایر کشورها»</span>
+                        </label>
+                    </div>
+
                     <!-- Options for select/multiselect/dropdown -->
                     <div x-show="form.answer_type === 'select' || form.answer_type === 'multiselect' || form.answer_type === 'dropdown'" class="bg-dark-50 rounded-xl p-4">
                         <label class="block text-dark-800 text-sm font-medium mb-3">گزینه‌ها</label>
@@ -292,7 +303,7 @@ include __DIR__ . '/includes/header.php';
                 showModal: false,
                 saving: false,
                 editingId: null,
-                form: { question_text: '', answer_type: 'text', sort_order: 0, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null, is_required: false },
+                form: { question_text: '', answer_type: 'text', sort_order: 0, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null, is_required: false, allow_other_countries: false },
                 toast: { show: false, message: '', type: 'success' },
                 answerTypeLabels: {
                     'text': 'متن کوتاه',
@@ -349,7 +360,7 @@ include __DIR__ . '/includes/header.php';
 
                 openModal() {
                     this.editingId = null;
-                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length + 1, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null, is_required: false };
+                    this.form = { question_text: '', answer_type: 'text', sort_order: this.questions.length + 1, options: [], placeholder: '', question_group: 'عمومی', min: null, max: null, is_required: false, allow_other_countries: false };
                     this.showModal = true;
                 },
 
@@ -368,6 +379,7 @@ include __DIR__ . '/includes/header.php';
                                  question_group: q.question_group || 'عمومی',
                                  min: (!Array.isArray(q.options) && q.options) ? q.options.min : null,
                                  max: (!Array.isArray(q.options) && q.options) ? q.options.max : null,
+                                 allow_other_countries: (q.answer_type === 'city_province' && !Array.isArray(q.options) && q.options) ? q.options.allow_other_countries : false,
                                  is_required: Boolean(parseInt(q.is_required))
                     };
                     this.showModal = true;
@@ -391,6 +403,10 @@ include __DIR__ . '/includes/header.php';
                             options = {
                                 min: this.form.min,
                                 max: this.form.max
+                            };
+                        } else if (this.form.answer_type === 'city_province') {
+                            options = {
+                                allow_other_countries: this.form.allow_other_countries
                             };
                         }
 

@@ -153,7 +153,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
                     </span>
-                    <span class="relative z-10">شروع پاسخ‌نامه جدید</span>
+                    <span class="relative z-10">شروع پاسخنامه</span>
                 </button>
 
                 <a href="./" class="block text-center text-gray-500 hover:text-aqr-green text-sm mt-6 font-medium transition-colors">
@@ -507,37 +507,52 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                                 <!-- City/Province -->
                                 <template x-if="currentQuestion.answer_type === 'city_province'">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div class="relative">
-                                            <label class="block text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">استان</label>
+                                    <div class="space-y-6">
+                                        <template x-if="currentQuestion.options?.allow_other_countries">
+                                            <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
+                                                 @click="setAnswer(currentAnswer === 'سایر کشورها' ? { province: '', city: '' } : 'سایر کشورها', currentAnswer !== 'سایر کشورها')">
+                                                <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
+                                                    :class="currentAnswer === 'سایر کشورها' ? 'border-aqr-gold bg-aqr-gold scale-110' : 'border-white/30'">
+                                                    <svg x-show="currentAnswer === 'سایر کشورها'" class="w-4 h-4 text-aqr-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                </div>
+                                                <span class="text-white font-medium">سایر کشورها</span>
+                                            </div>
+                                        </template>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" x-show="currentAnswer !== 'سایر کشورها'" x-transition>
                                             <div class="relative">
-                                                <select 
-                                                    @change="setAnswer({ province: $event.target.value, city: '' }, false)"
-                                                    class="w-full px-4 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl appearance-none text-aqr-green-dark font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg">
-                                                    <option value="">انتخاب استان...</option>
-                                                    <template x-for="p in iranProvinces" :key="p.name">
-                                                        <option :value="p.name" x-text="p.name" :selected="currentAnswer.province === p.name"></option>
-                                                    </template>
-                                                </select>
-                                                <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-gray-500">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                <label class="block text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">استان</label>
+                                                <div class="relative">
+                                                    <select 
+                                                        @change="setAnswer({ province: $event.target.value, city: '' }, false)"
+                                                        class="w-full px-4 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl appearance-none text-aqr-green-dark font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg">
+                                                        <option value="">انتخاب استان...</option>
+                                                        <template x-for="p in iranProvinces" :key="p.name">
+                                                            <option :value="p.name" x-text="p.name" :selected="currentAnswer.province === p.name"></option>
+                                                        </template>
+                                                    </select>
+                                                    <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-gray-500">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="relative">
-                                            <label class="block text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">شهر</label>
                                             <div class="relative">
-                                                <select 
-                                                    @change="setAnswer({ province: currentAnswer.province, city: $event.target.value }, true)"
-                                                    :disabled="!currentAnswer.province"
-                                                    class="w-full px-4 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl appearance-none text-aqr-green-dark font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg disabled:bg-gray-100 disabled:text-gray-400">
-                                                    <option value="">انتخاب شهر...</option>
-                                                    <template x-for="(c, idx) in currentProvinceCities" :key="idx">
-                                                        <option :value="c" x-text="c" :selected="currentAnswer.city === c"></option>
-                                                    </template>
-                                                </select>
-                                                <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-gray-500">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                <label class="block text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">شهر</label>
+                                                <div class="relative">
+                                                    <select 
+                                                        @change="setAnswer({ province: currentAnswer.province, city: $event.target.value }, true)"
+                                                        :disabled="!currentAnswer.province"
+                                                        class="w-full px-4 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl appearance-none text-aqr-green-dark font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg disabled:bg-gray-100 disabled:text-gray-400">
+                                                        <option value="">انتخاب شهر...</option>
+                                                        <template x-for="(c, idx) in currentProvinceCities" :key="idx">
+                                                            <option :value="c" x-text="c" :selected="currentAnswer.city === c"></option>
+                                                        </template>
+                                                    </select>
+                                                    <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-gray-500">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -551,7 +566,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 <!-- Bottom Navigation -->
                 <div class="flex-shrink-0 glass-panel border-t border-aqr-gold/30 px-4 py-4 md:px-8 md:py-6 flex items-center justify-between gap-4 z-30 transition-all duration-300">
                     <button @click="prevQuestion()" :disabled="currentIndex === 0"
-                        class="px-4 md:px-10 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all flex items-center gap-3 disabled:opacity-20 disabled:cursor-not-allowed border border-white/20 shadow-lg active:scale-95 text-sm md:text-lg">
+                        class="px-4 md:px-10 py-4 bg-aqr-green/10 hover:bg-aqr-green/20 text-aqr-green-dark font-bold rounded-2xl transition-all flex items-center gap-3 disabled:opacity-20 disabled:cursor-not-allowed border-2 border-aqr-green/20 shadow-lg active:scale-95 text-sm md:text-lg">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
@@ -633,6 +648,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                         return answer ? JSON.parse(answer) : [];
                     }
                     if (this.currentQuestion.answer_type === 'city_province') {
+                        if (answer === 'سایر کشورها') return 'سایر کشورها';
                         try {
                             return answer ? JSON.parse(answer) : { province: '', city: '' };
                         } catch {
@@ -650,8 +666,16 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     const val = this.currentAnswer;
                     
                     // Check if required
-                    if (this.currentQuestion.is_required && (!val || (Array.isArray(val) && val.length === 0) || (typeof val === 'object' && !Array.isArray(val) && !val.province))) {
-                        return false;
+                    if (this.currentQuestion.is_required) {
+                        if (!val) return false;
+                        if (Array.isArray(val) && val.length === 0) return false;
+                        if (typeof val === 'object' && !Array.isArray(val) && !val.province) return false;
+                        if (val === '') return false;
+                    }
+
+                    if (this.currentQuestion.answer_type === 'city_province') {
+                        if (val === 'سایر کشورها') return true;
+                        if (this.currentQuestion.is_required && (!val.province || !val.city)) return false;
                     }
 
                     if (this.currentQuestion.answer_type === 'number') {
@@ -668,8 +692,14 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                 set currentAnswer(value) {
                     if (!this.currentQuestion) return;
-                    if (this.currentQuestion.answer_type === 'multiselect' || this.currentQuestion.answer_type === 'city_province') {
+                    if (this.currentQuestion.answer_type === 'multiselect') {
                         this.answers[this.currentQuestion.id] = JSON.stringify(value);
+                    } else if (this.currentQuestion.answer_type === 'city_province') {
+                        if (value === 'سایر کشورها') {
+                            this.answers[this.currentQuestion.id] = 'سایر کشورها';
+                        } else {
+                            this.answers[this.currentQuestion.id] = JSON.stringify(value);
+                        }
                     } else {
                         this.answers[this.currentQuestion.id] = value;
                     }
@@ -845,7 +875,9 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     try {
                         let value = this.answers[this.currentQuestion.id] || '';
                         if (this.currentQuestion.answer_type === 'multiselect' || this.currentQuestion.answer_type === 'city_province') {
-                            try { value = JSON.parse(value); } catch { value = []; }
+                            if (value !== 'سایر کشورها') {
+                                try { value = JSON.parse(value); } catch { }
+                            }
                         }
 
                         await fetch('../api/answers.php', {
