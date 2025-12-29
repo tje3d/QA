@@ -57,7 +57,14 @@ include __DIR__ . '/includes/header.php';
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                             </svg>
                         </div>
-                        <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2">
+                            <template x-if="cat.password">
+                                <div class="w-8 h-8 flex items-center justify-center bg-amber-50 text-amber-600 rounded-lg shadow-sm" title="دارای رمز عبور">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                </div>
+                            </template>
                             <button @click="editCategory(cat)" class="w-10 h-10 flex items-center justify-center bg-brand-50 text-brand-600 hover:bg-brand-600 hover:text-white rounded-xl transition-all shadow-sm">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -99,6 +106,13 @@ include __DIR__ . '/includes/header.php';
                         <textarea x-model="form.description" rows="3"
                             class="w-full px-4 py-3 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition resize-none"></textarea>
                     </div>
+                    <div>
+                        <label class="block text-dark-800 text-sm font-medium mb-2">رمز عبور (اختیاری)</label>
+                        <input type="password" x-model="form.password"
+                            placeholder="برای تغییر یا ایجاد رمز وارد کنید"
+                            class="w-full px-4 py-3 bg-dark-50 border border-dark-200 rounded-xl text-dark-900 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition">
+                        <p class="text-xs text-dark-400 mt-1" x-show="editingId">در صورت خالی گذاشتن، رمز عبور قبلی تغییر نخواهد کرد.</p>
+                    </div>
                     <div class="flex gap-3 pt-2">
                         <button type="submit" :disabled="saving"
                             class="flex-1 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-brand-500/20 active:scale-95 disabled:opacity-50">
@@ -134,7 +148,7 @@ include __DIR__ . '/includes/header.php';
                 showModal: false,
                 saving: false,
                 editingId: null,
-                form: { title: '', description: '' },
+                form: { title: '', description: '', password: '' },
                 toast: { show: false, message: '', type: 'success' },
 
                 async init() {
@@ -155,7 +169,7 @@ include __DIR__ . '/includes/header.php';
 
                 openModal() {
                     this.editingId = null;
-                    this.form = { title: '', description: '' };
+                    this.form = { title: '', description: '', password: '' };
                     this.showModal = true;
                 },
 
@@ -165,7 +179,7 @@ include __DIR__ . '/includes/header.php';
 
                 editCategory(cat) {
                     this.editingId = cat.id;
-                    this.form = { title: cat.title, description: cat.description || '' };
+                    this.form = { title: cat.title, description: cat.description || '', password: '' };
                     this.showModal = true;
                 },
 

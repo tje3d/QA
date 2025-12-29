@@ -37,10 +37,11 @@ switch ($method) {
             jsonResponse(['success' => false, 'message' => 'عنوان الزامی است'], 400);
         }
 
-        $stmt = $pdo->prepare('INSERT INTO categories (title, description) VALUES (?, ?)');
+        $stmt = $pdo->prepare('INSERT INTO categories (title, description, password) VALUES (?, ?, ?)');
         $stmt->execute([
             sanitize($input['title']),
-            sanitize($input['description'] ?? '')
+            sanitize($input['description'] ?? ''),
+            !empty($input['password']) ? password_hash($input['password'], PASSWORD_DEFAULT) : null
         ]);
 
         jsonResponse([
@@ -58,12 +59,22 @@ switch ($method) {
             jsonResponse(['success' => false, 'message' => 'اطلاعات ناقص است'], 400);
         }
 
-        $stmt = $pdo->prepare('UPDATE categories SET title = ?, description = ? WHERE id = ?');
-        $stmt->execute([
-            sanitize($input['title']),
-            sanitize($input['description'] ?? ''),
-            (int)$input['id']
-        ]);
+        if (!empty($input['password'])) {
+            $stmt = $pdo->prepare('UPDATE categories SET title = ?, description = ?, password = ? WHERE id = ?');
+            $stmt->execute([
+                sanitize($input['title']),
+                sanitize($input['description'] ?? ''),
+                password_hash($input['password'], PASSWORD_DEFAULT),
+                (int)$input['id']
+            ]);
+        } else {
+            $stmt = $pdo->prepare('UPDATE categories SET title = ?, description = ? WHERE id = ?');
+            $stmt->execute([
+                sanitize($input['title']),
+                sanitize($input['description'] ?? ''),
+                (int)$input['id']
+            ]);
+        }
 
         jsonResponse(['success' => true, 'message' => 'دسته‌بندی با موفقیت به‌روزرسانی شد']);
         break;

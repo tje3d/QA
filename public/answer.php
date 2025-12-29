@@ -21,6 +21,18 @@ if (!$category) {
     exit;
 }
 
+// Check if category has password and if it's unlocked in session
+$isLocked = false;
+if (!empty($category['password'])) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (!isset($_SESSION['unlocked_categories'][$categoryId])) {
+        $isLocked = true;
+    }
+}
+$isLockedJson = json_encode($isLocked);
+
 // Get questions
 $stmt = $pdo->prepare('SELECT * FROM questions WHERE category_id = ? ORDER BY sort_order ASC, question_group ASC, id ASC');
 $stmt->execute([(int)$categoryId]);
@@ -99,6 +111,55 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
         <div class="absolute inset-0 bg-islamic-pattern opacity-[3%] bg-repeat"></div>
         <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-black/30 to-transparent"></div>
         <div class="absolute bottom-0 left-0 w-full h-[500px] bg-gradient-to-t from-black/50 to-transparent"></div>
+    </div>
+
+    <!-- Password Modal -->
+    <div x-show="showPasswordModal" x-cloak 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 backdrop-blur-none"
+         x-transition:enter-end="opacity-100 backdrop-blur-sm"
+         class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden transform transition-all border border-aqr-gold"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+            
+            <div class="bg-aqr-green p-8 text-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
+                <div class="w-20 h-20 bg-aqr-gold/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-aqr-gold/30">
+                    <svg class="w-10 h-10 text-aqr-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-black text-white relative z-10">ورود به <?= htmlspecialchars($category['title']) ?></h3>
+                <p class="text-aqr-gold-light text-sm mt-2 relative z-10">این بخش محافظت شده است. لطفاً رمز عبور را وارد کنید.</p>
+            </div>
+
+            <form @submit.prevent="verifyPassword()" class="p-8 bg-[#F9F9F4] space-y-6">
+                <div>
+                    <label class="block text-aqr-green-dark text-xs font-bold uppercase tracking-wider mb-2">رمز عبور</label>
+                    <input type="password" x-model="categoryPassword" required
+                        class="w-full px-6 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl text-aqr-green-dark text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-sm"
+                        placeholder="رمز عبور را اینجا وارد کنید...">
+                    <p x-show="passwordError" x-text="passwordError" class="text-red-500 text-xs mt-2 font-bold animate-pulse"></p>
+                </div>
+                
+                <button type="submit" :disabled="verifyingPassword"
+                    class="w-full py-5 bg-aqr-green hover:bg-aqr-green-light text-white font-black text-xl rounded-2xl shadow-lg shadow-aqr-green/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 group relative overflow-hidden disabled:opacity-50">
+                    <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
+                    <span x-show="!verifyingPassword" class="relative z-10">تایید و ورود</span>
+                    <span x-show="verifyingPassword" class="relative z-10 flex items-center gap-2">
+                        <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        در حال بررسی...
+                    </span>
+                </button>
+
+                <a href="./" class="block text-center text-gray-500 hover:text-aqr-green text-sm mt-4 font-medium transition-colors">
+                    انصراف و بازگشت
+                </a>
+            </form>
+        </div>
     </div>
 
     <!-- Attempt Selection Modal -->
@@ -632,7 +693,11 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 lastSaved: false,
                 debounceTimer: null,
                 showCompletionModal: false,
-                showAttemptModal: true,
+                showAttemptModal: !<?= $isLockedJson ?>,
+                showPasswordModal: <?= $isLockedJson ?>,
+                categoryPassword: '',
+                passwordError: '',
+                verifyingPassword: false,
                 categoryId: <?= $categoryId ?>,
                 currentAttemptId: null,
                 attempts: [],
@@ -756,10 +821,40 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 },
 
                 async init() {
+                    if (this.showPasswordModal) return;
                     await this.loadAttempts();
                     if (this.initialAttemptId) {
                         await this.selectAttempt(this.initialAttemptId);
                     }
+                },
+
+                async verifyPassword() {
+                    this.verifyingPassword = true;
+                    this.passwordError = '';
+                    try {
+                        const res = await fetch('../api/verify_category_password.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                category_id: this.categoryId,
+                                password: this.categoryPassword
+                            })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            this.showPasswordModal = false;
+                            this.showAttemptModal = true;
+                            await this.loadAttempts();
+                            if (this.initialAttemptId) {
+                                await this.selectAttempt(this.initialAttemptId);
+                            }
+                        } else {
+                            this.passwordError = data.message;
+                        }
+                    } catch (e) {
+                        this.passwordError = 'خطا در برقراری ارتباط با سرور';
+                    }
+                    this.verifyingPassword = false;
                 },
 
                 async loadAttempts() {
