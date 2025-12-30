@@ -120,33 +120,33 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
          x-transition:enter-end="opacity-100 backdrop-blur-sm"
          class="fixed inset-0 z-[60] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
-        <div class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden transform transition-all border border-aqr-gold"
+        <div class="relative bg-white rounded-3xl md:rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden transform transition-all border border-aqr-gold"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 scale-95 translate-y-4"
              x-transition:enter-end="opacity-100 scale-100 translate-y-0">
             
-            <div class="bg-aqr-green p-8 text-center relative overflow-hidden">
+            <div class="bg-aqr-green p-6 md:p-8 text-center relative overflow-hidden">
                 <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
-                <div class="w-20 h-20 bg-aqr-gold/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-aqr-gold/30">
-                    <svg class="w-10 h-10 text-aqr-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-aqr-gold/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-aqr-gold/30">
+                    <svg class="w-8 h-8 md:w-10 md:h-10 text-aqr-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-black text-white relative z-10">ورود به <?= htmlspecialchars($category['title']) ?></h3>
-                <p class="text-aqr-gold-light text-sm mt-2 relative z-10">این بخش محافظت شده است. لطفاً رمز عبور را وارد کنید.</p>
+                <h3 class="text-xl md:text-2xl font-black text-white relative z-10">ورود به <?= htmlspecialchars($category['title']) ?></h3>
+                <p class="text-aqr-gold-light text-xs md:text-sm mt-2 relative z-10">این بخش محافظت شده است. لطفاً رمز عبور را وارد کنید.</p>
             </div>
 
-            <form @submit.prevent="verifyPassword()" class="p-8 bg-[#F9F9F4] space-y-6">
+            <form @submit.prevent="verifyPassword()" class="p-6 md:p-8 bg-[#F9F9F4] space-y-4 md:space-y-6">
                 <div>
-                    <label class="block text-aqr-green-dark text-xs font-bold uppercase tracking-wider mb-2">رمز عبور</label>
+                    <label class="block text-aqr-green-dark text-[10px] md:text-xs font-bold uppercase tracking-wider mb-2">رمز عبور</label>
                     <input type="password" x-model="categoryPassword" required
-                        class="w-full px-6 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl text-aqr-green-dark text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-sm"
+                        class="w-full px-4 md:px-6 py-3 md:py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-xl md:rounded-2xl text-aqr-green-dark text-base md:text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-sm"
                         placeholder="رمز عبور را اینجا وارد کنید...">
                     <p x-show="passwordError" x-text="passwordError" class="text-red-500 text-xs mt-2 font-bold animate-pulse"></p>
                 </div>
                 
                 <button type="submit" :disabled="verifyingPassword"
-                    class="w-full py-5 bg-aqr-green hover:bg-aqr-green-light text-white font-black text-xl rounded-2xl shadow-lg shadow-aqr-green/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 group relative overflow-hidden disabled:opacity-50">
+                    class="w-full py-4 md:py-5 bg-aqr-green hover:bg-aqr-green-light text-white font-black text-lg md:text-xl rounded-xl md:rounded-2xl shadow-lg shadow-aqr-green/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 group relative overflow-hidden disabled:opacity-50">
                     <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
                     <span x-show="!verifyingPassword" class="relative z-10">تایید و ورود</span>
                     <span x-show="verifyingPassword" class="relative z-10 flex items-center gap-2">
@@ -169,34 +169,34 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
          x-transition:enter-end="opacity-100 backdrop-blur-sm"
          class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
-        <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md overflow-hidden transform transition-all border border-aqr-gold"
+        <div class="relative bg-white rounded-3xl md:rounded-[2rem] shadow-2xl w-full max-w-md overflow-hidden transform transition-all border border-aqr-gold"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 scale-95 translate-y-4"
              x-transition:enter-end="opacity-100 scale-100 translate-y-0">
             
-            <div class="bg-aqr-green p-8 text-center relative overflow-hidden">
+            <div class="bg-aqr-green p-6 md:p-8 text-center relative overflow-hidden">
                 <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
-                <h3 class="text-2xl font-black text-white relative z-10">انتخاب پاسخ‌نامه</h3>
-                <p class="text-aqr-gold-light text-sm mt-2 relative z-10">یک مسیر را انتخاب کنید</p>
+                <h3 class="text-xl md:text-2xl font-black text-white relative z-10">انتخاب پاسخ‌نامه</h3>
+                <p class="text-aqr-gold-light text-xs md:text-sm mt-2 relative z-10">یک مسیر را انتخاب کنید</p>
             </div>
 
-            <div class="p-6 bg-[#F9F9F4]">
+            <div class="p-5 md:p-6 bg-[#F9F9F4]">
                 <!-- Previous Attempts -->
                 <div x-show="attempts.length > 0" class="mb-6">
-                    <label class="block text-aqr-green-dark text-xs font-bold uppercase tracking-wider mb-3">پاسخ‌نامه‌های قبلی</label>
+                    <label class="block text-aqr-green-dark text-[10px] md:text-xs font-bold uppercase tracking-wider mb-3">پاسخ‌نامه‌های قبلی</label>
                     <div class="space-y-3 max-h-56 overflow-y-auto custom-scrollbar pr-1">
                         <template x-for="att in attempts" :key="att.id">
                             <button @click="selectAttempt(att.id)"
-                                class="w-full group text-right p-4 bg-white hover:bg-aqr-gold-light/20 border border-aqr-gold/30 hover:border-aqr-gold rounded-2xl transition-all duration-200 flex items-center justify-between">
+                                class="w-full group text-right p-3 md:p-4 bg-white hover:bg-aqr-gold-light/20 border border-aqr-gold/30 hover:border-aqr-gold rounded-xl md:rounded-2xl transition-all duration-200 flex items-center justify-between">
                                 <div>
                                     <div class="flex items-center gap-2 mb-1">
                                         <span class="w-2 h-2 rounded-full bg-aqr-green"></span>
-                                        <span class="text-aqr-green-dark font-bold text-sm" x-text="formatDate(att.created_at)"></span>
+                                        <span class="text-aqr-green-dark font-bold text-xs md:text-sm" x-text="formatDate(att.created_at)"></span>
                                     </div>
-                                    <span class="text-gray-500 text-xs mr-4" x-text="att.answered_count + ' پاسخ ثبت شده'"></span>
+                                    <span class="text-gray-500 text-[10px] md:text-xs mr-4" x-text="att.answered_count + ' پاسخ ثبت شده'"></span>
                                 </div>
-                                <div class="w-8 h-8 rounded-full bg-white border border-aqr-gold/30 flex items-center justify-center text-aqr-gold-dark group-hover:text-aqr-green-dark group-hover:border-aqr-green transition-colors">
-                                    <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white border border-aqr-gold/30 flex items-center justify-center text-aqr-gold-dark group-hover:text-aqr-green-dark group-hover:border-aqr-green transition-colors">
+                                    <svg class="w-3 h-3 md:w-4 md:h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                     </svg>
                                 </div>
@@ -207,15 +207,16 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 
                 <!-- New Attempt Button -->
                 <button @click="createNewAttempt()"
-                    class="w-full py-4 bg-aqr-green hover:bg-aqr-green-light text-white font-bold rounded-2xl shadow-lg shadow-aqr-green/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 group relative overflow-hidden">
+                    class="w-full py-3.5 md:py-4 bg-aqr-green hover:bg-aqr-green-light text-white font-bold rounded-xl md:rounded-2xl shadow-lg shadow-aqr-green/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 group relative overflow-hidden">
                     <div class="absolute inset-0 opacity-10 bg-islamic-pattern"></div>
                     <span class="bg-white/20 p-1 rounded-lg group-hover:bg-white/30 transition relative z-10">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
                     </span>
-                    <span class="relative z-10">شروع پاسخنامه</span>
+                    <span class="relative z-10 text-sm md:text-base">شروع پاسخنامه</span>
                 </button>
+
 
                 <a href="./" class="block text-center text-gray-500 hover:text-aqr-green text-sm mt-6 font-medium transition-colors">
                     بازگشت به صفحه اصلی
@@ -228,7 +229,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
     <div x-show="currentAttemptId" x-cloak class="h-full flex flex-col relative z-10">
         <!-- Top Bar -->
         <header class="glass-panel z-40 relative shadow-gold">
-            <div class="max-w-[1920px] mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+            <div class="max-w-[1920px] mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
                 <div class="flex items-center gap-3 md:gap-6">
                     <button @click="sidebarOpen = true" class="md:hidden text-aqr-green-dark hover:text-aqr-gold transition p-2 hover:bg-black/5 rounded-xl">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,28 +244,28 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     <div>
                         <div class="flex items-center gap-2">
                             <span class="w-1.5 h-6 bg-aqr-gold rounded-full hidden md:block"></span>
-                            <h1 class="text-aqr-green-dark font-black text-lg md:text-xl tracking-tight"><?= htmlspecialchars($category['title']) ?></h1>
+                            <h1 class="text-aqr-green-dark font-black text-base md:text-xl tracking-tight"><?= htmlspecialchars($category['title']) ?></h1>
                         </div>
                     </div>
                 </div>
                 
                 <div class="flex items-center gap-4">
                     <!-- Status Indicators -->
-                    <div class="flex items-center px-4 py-2 bg-white/50 rounded-full border border-aqr-gold/30 shadow-inner-gold">
+                    <div class="flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-white/50 rounded-full border border-aqr-gold/30 shadow-inner-gold">
                         <div x-show="saving" class="flex items-center gap-2 text-amber-600">
-                            <div class="w-3.5 h-3.5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
-                            <span class="text-xs font-bold hidden sm:inline">در حال ذخیره...</span>
+                            <div class="w-3 h-3 md:w-3.5 md:h-3.5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+                            <span class="text-[10px] md:text-xs font-bold hidden sm:inline">در حال ذخیره...</span>
                         </div>
                         <div x-show="!saving && lastSaved" x-cloak class="flex items-center gap-2 text-emerald-600"
                              x-transition:enter="transition ease-out duration-200"
                              x-transition:enter-start="opacity-0 scale-90"
                              x-transition:enter-end="opacity-100 scale-100">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-xs font-bold hidden sm:inline">ذخیره شد</span>
+                            <span class="text-[10px] md:text-xs font-bold hidden sm:inline">ذخیره شد</span>
                         </div>
-                        <div x-show="!saving && !lastSaved" class="text-gray-500 text-xs font-medium">آماده</div>
+                        <div x-show="!saving && !lastSaved" class="text-gray-500 text-[10px] md:text-xs font-medium">آماده</div>
                     </div>
 
                     <button @click="showAttemptModal = true" class="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-aqr-green-dark hover:text-aqr-green bg-transparent hover:bg-white/50 rounded-xl transition border border-transparent hover:border-aqr-gold/30">
@@ -290,28 +291,28 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" x-cloak></div>
 
             <!-- Sidebar -->
-            <aside class="fixed inset-y-0 right-0 w-80 bg-[#F9F9F4] border-l border-aqr-gold/30 flex flex-col z-50 transition-transform duration-300 shadow-2xl md:shadow-none translate-x-full md:relative md:translate-x-0"
+            <aside class="fixed inset-y-0 right-0 w-72 md:w-80 bg-[#F9F9F4] border-l border-aqr-gold/30 flex flex-col z-50 transition-transform duration-300 shadow-2xl md:shadow-none translate-x-full md:relative md:translate-x-0"
                 :class="sidebarOpen ? '!translate-x-0' : ''">
                 
                 <!-- Sidebar Header Mobile -->
                 <div class="md:hidden p-4 border-b border-aqr-gold/20 flex items-center justify-between bg-white">
-                    <h2 class="font-bold text-aqr-green-dark">فهرست سوالات</h2>
+                    <h2 class="font-bold text-aqr-green-dark text-sm">فهرست سوالات</h2>
                     <button @click="sidebarOpen = false" class="text-gray-500 hover:text-black bg-gray-100 p-2 rounded-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
 
                 <!-- Progress Section -->
-                <div class="p-6 border-b border-aqr-gold/20 bg-white/50">
-                    <div class="flex items-center justify-between text-sm mb-3">
+                <div class="p-4 md:p-6 border-b border-aqr-gold/20 bg-white/50">
+                    <div class="flex items-center justify-between text-xs md:text-sm mb-3">
                         <span class="text-aqr-green-dark font-medium">پیشرفت کلی</span>
                         <div class="flex items-baseline gap-1">
-                            <span class="text-aqr-green font-black text-lg" x-text="answeredCount"></span>
+                            <span class="text-aqr-green font-black text-base md:text-lg" x-text="answeredCount"></span>
                             <span class="text-gray-400">/</span>
                             <span class="text-gray-400" x-text="questions.length"></span>
                         </div>
                     </div>
-                    <div class="h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-2.5 md:h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
                         <div class="h-full bg-gradient-to-r from-aqr-gold to-aqr-gold-dark rounded-full transition-all duration-700 ease-out shadow-lg shadow-aqr-gold/30"
                             :style="'width: ' + progressPercent + '%'">
                             <div class="w-full h-full opacity-30 bg-[length:10px_10px] bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] animate-[pulse_2s_linear_infinite]"></div>
@@ -320,18 +321,18 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 </div>
 
                 <!-- Question List -->
-                <div class="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-4">
+                <div class="flex-1 overflow-y-auto custom-scrollbar p-3 md:p-4 space-y-3 md:space-y-4">
                     <template x-for="group in questionGroups" :key="group">
-                        <div class="bg-white rounded-2xl border border-aqr-gold/20 overflow-hidden shadow-sm">
+                        <div class="bg-white rounded-xl md:rounded-2xl border border-aqr-gold/20 overflow-hidden shadow-sm">
                             <!-- Group Header -->
                             <button @click="toggleGroup(group)" 
-                                class="w-full flex items-center justify-between px-5 py-3 hover:bg-aqr-cream/30 transition-colors group">
-                                <div class="flex items-center gap-3">
+                                class="w-full flex items-center justify-between px-4 py-2.5 md:px-5 md:py-3 hover:bg-aqr-cream/30 transition-colors group">
+                                <div class="flex items-center gap-2 md:gap-3">
                                     <div class="w-1.5 h-1.5 rounded-full bg-aqr-gold shadow-sm"></div>
-                                    <span class="text-aqr-green-dark font-bold text-sm" x-text="group"></span>
-                                    <span class="px-2 py-0.5 bg-aqr-gold/10 text-aqr-gold-dark text-[10px] rounded-md font-medium group-hover:bg-white transition-colors" x-text="getGroupAnsweredCount(group) + ' / ' + getGroupQuestions(group).length"></span>
+                                    <span class="text-aqr-green-dark font-bold text-xs md:text-sm" x-text="group"></span>
+                                    <span class="px-1.5 py-0.5 bg-aqr-gold/10 text-aqr-gold-dark text-[9px] md:text-[10px] rounded-md font-medium group-hover:bg-white transition-colors" x-text="getGroupAnsweredCount(group) + ' / ' + getGroupQuestions(group).length"></span>
                                 </div>
-                                <svg class="w-4 h-4 text-gray-400 transition-transform duration-300" 
+                                <svg class="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400 transition-transform duration-300" 
                                     :class="!collapsedGroups.includes(group) ? 'rotate-180' : 'rotate-0'" 
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -343,21 +344,21 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                                  x-transition:enter="transition ease-out duration-200"
                                  x-transition:enter-start="opacity-0 -translate-y-2"
                                  x-transition:enter-end="opacity-100 translate-y-0"
-                                 class="p-2 bg-gray-50/50 border-t border-gray-100 space-y-1">
+                                 class="p-1.5 md:p-2 bg-gray-50/50 border-t border-gray-100 space-y-1">
                                 <template x-for="(q, idx) in getGroupQuestions(group)" :key="q.id">
                                     <button @click="goToQuestion(getQuestionIndex(q.id)); sidebarOpen = false"
-                                        class="w-full text-right p-2.5 rounded-xl transition-all duration-200 flex items-start gap-3 group relative overflow-hidden"
+                                        class="w-full text-right p-2 md:p-2.5 rounded-lg md:rounded-xl transition-all duration-200 flex items-start gap-2 md:gap-3 group relative overflow-hidden"
                                         :class="currentIndex === getQuestionIndex(q.id) ? 'bg-aqr-cream shadow-md border border-aqr-gold/30' : 'hover:bg-white hover:shadow-sm'">
                                         
                                         <!-- Active Indicator -->
                                         <div x-show="currentIndex === getQuestionIndex(q.id)" class="absolute left-0 top-0 bottom-0 w-1 bg-aqr-green"></div>
 
-                                        <div class="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold transition-colors"
+                                        <div class="flex-shrink-0 w-6 h-6 md:w-7 md:h-7 rounded-md md:rounded-lg flex items-center justify-center text-[10px] md:text-xs font-bold transition-colors"
                                             :class="isAnswered(q.id) 
                                                 ? 'bg-aqr-green text-white shadow-lg shadow-aqr-green/20' 
                                                 : (currentIndex === getQuestionIndex(q.id) ? 'bg-aqr-gold/20 text-aqr-green-dark' : 'bg-gray-200 text-gray-500')">
                                             <template x-if="isAnswered(q.id)">
-                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-3 h-3 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                                 </svg>
                                             </template>
@@ -378,8 +379,8 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                 <!-- Sidebar Footer Mobile -->
                 <div class="md:hidden p-4 border-t border-aqr-gold/20 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-10">
-                    <a href="./" class="flex items-center justify-center w-full py-4 bg-aqr-green text-aqr-gold font-black rounded-2xl border border-aqr-gold/30 hover:bg-aqr-green-light transition-all duration-200 gap-3 shadow-lg">
-                        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="./" class="flex items-center justify-center w-full py-3.5 bg-aqr-green text-aqr-gold font-black rounded-xl border border-aqr-gold/30 hover:bg-aqr-green-light transition-all duration-200 gap-3 shadow-lg text-sm">
+                        <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
                         بازگشت به فهرست دسته‌ها
@@ -390,66 +391,66 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
             <!-- Main Content -->
             <main class="flex-1 flex flex-col overflow-hidden w-full md:w-auto relative" @click="sidebarOpen = false">
                 <!-- Question Area -->
-                <div class="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-10 flex flex-col items-center">
+                <div class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-10 flex flex-col items-center">
                     <template x-if="currentQuestion">
                         <div class="w-full max-w-3xl mx-auto my-auto min-h-min flex flex-col justify-center animate-slide-up">
                             
                             <!-- Breadcrumb / Meta -->
-                            <div class="flex items-center gap-3 text-sm mb-6 px-2 text-white/80">
-                                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 border border-white/20 shadow-sm font-bold" x-text="currentIndex + 1"></span>
+                            <div class="flex items-center gap-2 md:gap-3 text-xs md:text-sm mb-4 md:mb-6 px-2 text-white/80">
+                                <span class="flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 border border-white/20 shadow-sm font-bold" x-text="currentIndex + 1"></span>
                                 <span class="text-white/60">از</span>
                                 <span class="text-white font-medium" x-text="questions.length"></span>
                                 <div class="h-4 w-px bg-white/30 mx-2"></div>
-                                <span class="px-3 py-1 bg-white/10 text-white text-xs rounded-full font-bold border border-white/20" x-text="currentQuestion.question_group || 'عمومی'"></span>
+                                <span class="px-2 py-0.5 md:px-3 md:py-1 bg-white/10 text-white text-[10px] md:text-xs rounded-full font-bold border border-white/20" x-text="currentQuestion.question_group || 'عمومی'"></span>
                             </div>
 
                             <!-- Question Card -->
-                            <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-card border-4 border-aqr-gold/20 mb-6 relative overflow-visible">
-                                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-20 h-2 bg-aqr-gold rounded-full opacity-30"></div>
-                                <div class="flex items-start justify-between gap-4">
-                                    <h2 class="text-2xl md:text-3xl font-black text-aqr-green-dark leading-relaxed mb-2" x-text="currentQuestion.question_text"></h2>
+                            <div class="bg-white rounded-3xl md:rounded-[2.5rem] p-6 md:p-10 shadow-card border-[3px] md:border-4 border-aqr-gold/20 mb-4 md:mb-6 relative overflow-visible">
+                                <div class="flex items-start justify-between gap-3 md:gap-4">
+                                    <h2 class="text-xl md:text-3xl font-black text-aqr-green-dark leading-relaxed mb-1 md:mb-2" x-text="currentQuestion.question_text"></h2>
                                     <template x-if="currentQuestion.is_required">
-                                        <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm whitespace-nowrap">الزامی</span>
+                                        <span class="bg-red-500 text-white text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-md shadow-sm whitespace-nowrap">الزامی</span>
                                     </template>
                                 </div>
                             </div>
 
                             <!-- Interaction Area -->
-                            <div class="bg-white/10 backdrop-blur-md rounded-[2rem] p-8 shadow-glass border border-white/20">
+                            <div class="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-glass border border-white/20">
                                 
                                 <!-- Boolean -->
                                 <template x-if="currentQuestion.answer_type === 'boolean'">
-                                    <div class="grid grid-cols-2 gap-6">
+                                    <div class="grid grid-cols-2 gap-4 md:gap-6">
                                         <button @click="setAnswer('بله', true)"
-                                            class="group relative py-8 rounded-2xl text-xl font-bold transition-all duration-300 border-2 overflow-hidden"
+                                            class="group relative py-6 md:py-8 rounded-xl md:rounded-2xl text-lg md:text-xl font-bold transition-all duration-300 border-2 overflow-hidden"
                                             :class="currentAnswer === 'بله' 
                                                 ? 'bg-aqr-green border-aqr-green text-white shadow-xl shadow-aqr-green/30 scale-[1.02]' 
                                                 : 'bg-white border-white/20 text-aqr-green-dark hover:border-aqr-gold hover:bg-aqr-cream'">
                                             <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                                            <div class="relative flex flex-col items-center gap-3">
-                                                <div class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                                            <div class="relative flex flex-col items-center gap-2 md:gap-3">
+                                                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors"
                                                      :class="currentAnswer === 'بله' ? 'bg-white/20' : 'bg-aqr-green/10'">
-                                                    <svg class="w-6 h-6" :class="currentAnswer === 'بله' ? 'text-white' : 'text-aqr-green'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                                    <svg class="w-5 h-5 md:w-6 md:h-6" :class="currentAnswer === 'بله' ? 'text-white' : 'text-aqr-green'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                                                 </div>
                                                 <span>بله</span>
                                             </div>
                                         </button>
                                         <button @click="setAnswer('خیر', true)"
-                                            class="group relative py-8 rounded-2xl text-xl font-bold transition-all duration-300 border-2 overflow-hidden"
+                                            class="group relative py-6 md:py-8 rounded-xl md:rounded-2xl text-lg md:text-xl font-bold transition-all duration-300 border-2 overflow-hidden"
                                             :class="currentAnswer === 'خیر' 
                                                 ? 'bg-red-600 border-red-600 text-white shadow-xl shadow-red-600/30 scale-[1.02]' 
                                                 : 'bg-white border-white/20 text-aqr-green-dark hover:border-red-400 hover:bg-red-50'">
                                             <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                                            <div class="relative flex flex-col items-center gap-3">
-                                                <div class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                                            <div class="relative flex flex-col items-center gap-2 md:gap-3">
+                                                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors"
                                                      :class="currentAnswer === 'خیر' ? 'bg-white/20' : 'bg-red-100'">
-                                                    <svg class="w-6 h-6" :class="currentAnswer === 'خیر' ? 'text-white' : 'text-red-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                    <svg class="w-5 h-5 md:w-6 md:h-6" :class="currentAnswer === 'خیر' ? 'text-white' : 'text-red-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                 </div>
                                                 <span>خیر</span>
                                             </div>
                                         </button>
                                     </div>
                                 </template>
+
 
                                 <!-- Text -->
                                 <template x-if="currentQuestion.answer_type === 'text'">
@@ -458,7 +459,7 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                                             x-model="currentAnswer"
                                             @input="debounceSave()"
                                             @keydown.enter="handleEnter($event)"
-                                            class="w-full px-6 py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl text-aqr-green-dark text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg"
+                                            class="w-full px-4 md:px-6 py-4 md:py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-xl md:rounded-2xl text-aqr-green-dark text-base md:text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg"
                                             :placeholder="currentQuestion.placeholder || 'پاسخ خود را بنویسید...'">
                                     </div>
                                 </template>
@@ -470,8 +471,8 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                                             x-model="currentAnswer"
                                             @input="debounceSave()"
                                             @keydown.enter="handleEnter($event)"
-                                            rows="6"
-                                            class="w-full px-6 py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl text-aqr-green-dark text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg resize-none leading-loose"
+                                            rows="4" md:rows="6"
+                                            class="w-full px-4 md:px-6 py-4 md:py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-xl md:rounded-2xl text-aqr-green-dark text-base md:text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg resize-none leading-relaxed md:leading-loose"
                                             :placeholder="currentQuestion.placeholder || 'توضیحات خود را بنویسید...'"></textarea>
                                     </div>
                                 </template>
@@ -486,10 +487,10 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                                             @keydown.enter="handleEnter($event)"
                                             :min="currentQuestion.options?.min"
                                             :max="currentQuestion.options?.max"
-                                            class="w-full px-6 py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl text-aqr-green-dark text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg"
+                                            class="w-full px-4 md:px-6 py-4 md:py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-xl md:rounded-2xl text-aqr-green-dark text-base md:text-lg font-medium placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg"
                                             :placeholder="currentQuestion.placeholder || 'عدد مورد نظر را وارد کنید...'">
                                         
-                                        <div class="mt-3 flex flex-wrap gap-4 text-xs font-bold text-white drop-shadow-md">
+                                        <div class="mt-3 flex flex-wrap gap-4 text-[10px] md:text-xs font-bold text-white drop-shadow-md">
                                             <template x-if="currentQuestion.options?.min">
                                                 <span>حداقل: <span x-text="currentQuestion.options.min"></span></span>
                                             </template>
@@ -505,18 +506,18 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                                 <!-- Select -->
                                 <template x-if="currentQuestion.answer_type === 'select'">
-                                    <div class="space-y-3">
+                                    <div class="space-y-2 md:space-y-3">
                                         <template x-for="(opt, idx) in currentQuestion.options" :key="idx">
                                             <button @click="setAnswer(opt, true)"
-                                                class="w-full text-right px-6 py-5 rounded-2xl transition-all duration-200 flex items-center gap-5 border-2 group"
+                                                class="w-full text-right px-4 md:px-6 py-4 md:py-5 rounded-xl md:rounded-2xl transition-all duration-200 flex items-center gap-3 md:gap-5 border-2 group"
                                                 :class="currentAnswer === opt 
                                                     ? 'bg-aqr-green border-aqr-green shadow-lg shadow-aqr-green/30 z-10' 
                                                     : 'bg-white border-transparent hover:border-aqr-gold hover:bg-aqr-cream'">
-                                                <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
+                                                <div class="w-5 h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
                                                     :class="currentAnswer === opt ? 'border-white scale-110' : 'border-gray-300 group-hover:border-aqr-gold'">
-                                                    <div x-show="currentAnswer === opt" class="w-3 h-3 bg-white rounded-full shadow-sm" x-transition:enter="scale-0 duration-200" x-transition:leave="scale-0 duration-200"></div>
+                                                    <div x-show="currentAnswer === opt" class="w-2.5 h-2.5 md:w-3 md:h-3 bg-white rounded-full shadow-sm" x-transition:enter="scale-0 duration-200" x-transition:leave="scale-0 duration-200"></div>
                                                 </div>
-                                                <span class="text-lg font-medium" :class="currentAnswer === opt ? 'text-white' : 'text-aqr-green-dark'">
+                                                <span class="text-base md:text-lg font-medium" :class="currentAnswer === opt ? 'text-white' : 'text-aqr-green-dark'">
                                                     <span x-text="opt"></span>
                                                 </span>
                                             </button>
@@ -526,20 +527,20 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                                 <!-- Multiselect -->
                                 <template x-if="currentQuestion.answer_type === 'multiselect'">
-                                    <div class="space-y-3">
+                                    <div class="space-y-2 md:space-y-3">
                                         <template x-for="(opt, idx) in currentQuestion.options" :key="idx">
                                             <button @click="toggleMultiSelect(opt)"
-                                                class="w-full text-right px-6 py-5 rounded-2xl transition-all duration-200 flex items-center gap-5 border-2 group"
+                                                class="w-full text-right px-4 md:px-6 py-4 md:py-5 rounded-xl md:rounded-2xl transition-all duration-200 flex items-center gap-3 md:gap-5 border-2 group"
                                                 :class="isSelectedMulti(opt) 
                                                     ? 'bg-aqr-green border-aqr-green shadow-lg shadow-aqr-green/30' 
                                                     : 'bg-white border-transparent hover:border-aqr-gold hover:bg-aqr-cream'">
-                                                <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
+                                                <div class="w-5 h-5 md:w-6 md:h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
                                                     :class="isSelectedMulti(opt) ? 'border-white bg-white scale-110' : 'border-gray-300 group-hover:border-aqr-gold'">
-                                                    <svg x-show="isSelectedMulti(opt)" class="w-4 h-4 text-aqr-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg x-show="isSelectedMulti(opt)" class="w-3.5 h-3.5 md:w-4 md:h-4 text-aqr-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                                     </svg>
                                                 </div>
-                                                <span class="text-lg font-medium" :class="isSelectedMulti(opt) ? 'text-white' : 'text-aqr-green-dark'">
+                                                <span class="text-base md:text-lg font-medium" :class="isSelectedMulti(opt) ? 'text-white' : 'text-aqr-green-dark'">
                                                     <span x-text="opt"></span>
                                                 </span>
                                             </button>
@@ -552,14 +553,14 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                                     <div class="relative">
                                         <select 
                                             @change="setAnswer($event.target.value, true)"
-                                            class="w-full px-6 py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl text-aqr-green-dark text-lg font-medium appearance-none focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg cursor-pointer">
+                                            class="w-full px-4 md:px-6 py-4 md:py-5 bg-white border-2 border-transparent focus:border-aqr-gold rounded-xl md:rounded-2xl text-aqr-green-dark text-base md:text-lg font-medium appearance-none focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg cursor-pointer">
                                             <option value="">انتخاب کنید...</option>
                                             <template x-for="(opt, idx) in currentQuestion.options" :key="idx">
                                                 <option :value="opt" x-text="opt" :selected="currentAnswer === opt"></option>
                                             </template>
                                         </select>
-                                        <div class="absolute inset-y-0 left-0 flex items-center px-6 pointer-events-none text-aqr-gold">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div class="absolute inset-y-0 left-0 flex items-center px-4 md:px-6 pointer-events-none text-aqr-gold">
+                                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                             </svg>
                                         </div>
@@ -568,51 +569,51 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
 
                                 <!-- City/Province -->
                                 <template x-if="currentQuestion.answer_type === 'city_province'">
-                                    <div class="space-y-6">
+                                    <div class="space-y-4 md:space-y-6">
                                         <template x-if="currentQuestion.options?.allow_other_countries">
-                                            <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
+                                            <div class="flex items-center gap-3 p-3 md:p-4 bg-white/5 rounded-xl md:rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
                                                  @click="setAnswer(currentAnswer === 'سایر کشورها' ? { province: '', city: '' } : 'سایر کشورها', currentAnswer !== 'سایر کشورها')">
-                                                <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
+                                                <div class="w-5 h-5 md:w-6 md:h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200"
                                                     :class="currentAnswer === 'سایر کشورها' ? 'border-aqr-gold bg-aqr-gold scale-110' : 'border-white/30'">
-                                                    <svg x-show="currentAnswer === 'سایر کشورها'" class="w-4 h-4 text-aqr-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg x-show="currentAnswer === 'سایر کشورها'" class="w-3.5 h-3.5 md:w-4 md:h-4 text-aqr-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                                     </svg>
                                                 </div>
-                                                <span class="text-white font-medium">سایر کشورها</span>
+                                                <span class="text-white text-sm md:text-base font-medium">سایر کشورها</span>
                                             </div>
                                         </template>
 
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" x-show="currentAnswer !== 'سایر کشورها'" x-transition>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" x-show="currentAnswer !== 'سایر کشورها'" x-transition>
                                             <div class="relative">
-                                                <label class="block text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">استان</label>
+                                                <label class="block text-xs md:text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">استان</label>
                                                 <div class="relative">
                                                     <select 
                                                         @change="setAnswer({ province: $event.target.value, city: '' }, false)"
-                                                        class="w-full px-4 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl appearance-none text-aqr-green-dark font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg">
+                                                        class="w-full px-4 py-3.5 md:py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-xl md:rounded-2xl appearance-none text-aqr-green-dark text-sm md:text-base font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg">
                                                         <option value="">انتخاب استان...</option>
                                                         <template x-for="p in iranProvinces" :key="p.name">
                                                             <option :value="p.name" x-text="p.name" :selected="currentAnswer.province === p.name"></option>
                                                         </template>
                                                     </select>
                                                     <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-gray-500">
-                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="relative">
-                                                <label class="block text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">شهر</label>
+                                                <label class="block text-xs md:text-sm font-bold text-white mb-2 shadow-black drop-shadow-md">شهر</label>
                                                 <div class="relative">
                                                     <select 
                                                         @change="setAnswer({ province: currentAnswer.province, city: $event.target.value }, true)"
                                                         :disabled="!currentAnswer.province"
-                                                        class="w-full px-4 py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-2xl appearance-none text-aqr-green-dark font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg disabled:bg-gray-100 disabled:text-gray-400">
+                                                        class="w-full px-4 py-3.5 md:py-4 bg-white border-2 border-transparent focus:border-aqr-gold rounded-xl md:rounded-2xl appearance-none text-aqr-green-dark text-sm md:text-base font-medium focus:outline-none focus:ring-4 focus:ring-aqr-gold/20 transition-all shadow-lg disabled:bg-gray-100 disabled:text-gray-400">
                                                         <option value="">انتخاب شهر...</option>
                                                         <template x-for="(c, idx) in currentProvinceCities" :key="idx">
                                                             <option :value="c" x-text="c" :selected="currentAnswer.city === c"></option>
                                                         </template>
                                                     </select>
                                                     <div class="absolute inset-y-0 left-0 flex items-center px-4 pointer-events-none text-gray-500">
-                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                                     </div>
                                                 </div>
                                             </div>
@@ -625,10 +626,10 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 </div>
 
                 <!-- Bottom Navigation -->
-                <div class="flex-shrink-0 glass-panel border-t border-aqr-gold/30 px-4 py-4 md:px-8 md:py-6 flex items-center justify-between gap-4 z-30 transition-all duration-300">
+                <div class="flex-shrink-0 glass-panel border-t border-aqr-gold/30 px-4 py-3 md:px-8 md:py-6 flex items-center justify-between gap-3 md:gap-4 z-30 transition-all duration-300">
                     <button @click="prevQuestion()" :disabled="currentIndex === 0"
-                        class="px-4 md:px-10 py-4 bg-aqr-green/10 hover:bg-aqr-green/20 text-aqr-green-dark font-bold rounded-2xl transition-all flex items-center gap-3 disabled:opacity-20 disabled:cursor-not-allowed border-2 border-aqr-green/20 shadow-lg active:scale-95 text-sm md:text-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="px-4 md:px-10 py-3.5 md:py-4 bg-aqr-green/10 hover:bg-aqr-green/20 text-aqr-green-dark font-bold rounded-xl md:rounded-2xl transition-all flex items-center gap-2 md:gap-3 disabled:opacity-20 disabled:cursor-not-allowed border-2 border-aqr-green/20 shadow-lg active:scale-95 text-xs md:text-lg">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
                         <span class="hidden sm:inline">سوال قبلی</span>
@@ -636,16 +637,17 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     </button>
                     
                     <button @click="nextQuestion()" :disabled="!isCurrentAnswerValid"
-                        class="flex-1 sm:flex-none justify-center px-6 md:px-12 py-4 bg-aqr-gold hover:bg-aqr-gold-dark text-aqr-green-dark font-black rounded-2xl shadow-[0_10px_25px_-5px_rgba(212,175,55,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(212,175,55,0.5)] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-sm md:text-xl">
+                        class="flex-1 sm:flex-none justify-center px-6 md:px-12 py-3.5 md:py-4 bg-aqr-gold hover:bg-aqr-gold-dark text-aqr-green-dark font-black rounded-xl md:rounded-2xl shadow-[0_10px_25px_-5px_rgba(212,175,55,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(212,175,55,0.5)] active:scale-95 transition-all flex items-center gap-2 md:gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-sm md:text-xl">
                         <span x-text="currentIndex === questions.length - 1 ? 'ثبت نهایی' : 'سوال بعدی'"></span>
-                        <svg class="w-6 h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="currentIndex !== questions.length - 1">
+                        <svg class="w-5 h-5 md:w-6 md:h-6 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="currentIndex !== questions.length - 1">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
-                        <svg x-show="currentIndex === questions.length - 1" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg x-show="currentIndex === questions.length - 1" class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </button>
                 </div>
+
             </main>
         </div>
     </div>
@@ -657,26 +659,26 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
          x-transition:enter-start="opacity-0 backdrop-blur-none"
          x-transition:enter-end="opacity-100 backdrop-blur-sm">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-        <div class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-sm p-8 text-center overflow-hidden border border-aqr-gold"
+        <div class="relative bg-white rounded-3xl md:rounded-[2.5rem] shadow-2xl w-full max-w-sm p-6 md:p-8 text-center overflow-hidden border border-aqr-gold"
              x-transition:enter="transition ease-out duration-500"
              x-transition:enter-start="opacity-0 scale-90 translate-y-10"
              x-transition:enter-end="opacity-100 scale-100 translate-y-0">
             
-            <div class="w-24 h-24 bg-gradient-to-tr from-aqr-green to-aqr-green-light rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-aqr-green/40 relative">
+            <div class="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-tr from-aqr-green to-aqr-green-light rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-xl shadow-aqr-green/40 relative">
                 <div class="absolute inset-0 rounded-full border-4 border-white/20"></div>
-                <svg class="w-12 h-12 text-aqr-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-aqr-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
             </div>
 
-            <h3 class="text-3xl font-black text-aqr-green-dark mb-2">تبریک!</h3>
-            <p class="text-gray-500 leading-relaxed mb-8">شما به تمامی سوالات این بخش با موفقیت پاسخ دادید.</p>
+            <h3 class="text-2xl md:text-3xl font-black text-aqr-green-dark mb-1 md:mb-2">تبریک!</h3>
+            <p class="text-sm md:text-base text-gray-500 leading-relaxed mb-6 md:mb-8">شما به تمامی سوالات این بخش با موفقیت پاسخ دادید.</p>
             
-            <div class="flex flex-col gap-3">
-                <a href="./" class="w-full py-4 bg-aqr-green-dark hover:bg-black text-white font-bold rounded-2xl shadow-lg transition-transform hover:-translate-y-1">
+            <div class="flex flex-col gap-2 md:gap-3">
+                <a href="./" class="w-full py-3.5 md:py-4 bg-aqr-green-dark hover:bg-black text-white font-bold rounded-xl md:rounded-2xl shadow-lg transition-all hover:-translate-y-1 text-sm md:text-base text-center">
                     بازگشت به منوی اصلی
                 </a>
-                <button @click="createNewAttempt()" class="w-full py-4 bg-aqr-cream hover:bg-aqr-gold-light text-aqr-green-dark font-bold rounded-2xl transition-colors">
+                <button @click="createNewAttempt()" class="w-full py-3.5 md:py-4 bg-aqr-cream hover:bg-aqr-gold-light text-aqr-green-dark font-bold rounded-xl md:rounded-2xl transition-colors text-sm md:text-base">
                     شروع مجدد
                 </button>
             </div>
