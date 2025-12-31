@@ -1005,7 +1005,9 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                 },
 
                 formatDate(dateStr) {
-                    const date = new Date(dateStr);
+                    if (!dateStr) return '';
+                    // Replace space with T and add Tehran offset to ensure correct parsing
+                    const date = new Date(dateStr.replace(' ', 'T') + '+03:30');
                     return new Intl.DateTimeFormat('fa-IR', {
                         year: 'numeric',
                         month: '2-digit',

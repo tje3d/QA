@@ -3,6 +3,9 @@
  * Helper Functions
  */
 
+// Set default timezone
+date_default_timezone_set('Asia/Tehran');
+
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

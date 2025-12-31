@@ -21,6 +21,7 @@ class Database {
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,
             ]);
+            $this->pdo->exec("SET time_zone = '+03:30'");
         } catch (PDOException $e) {
             die(json_encode([
                 'success' => false,
