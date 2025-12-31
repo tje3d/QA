@@ -295,10 +295,23 @@ include __DIR__ . '/includes/header.php';
                     const date = new Date(dateStr);
                     return new Intl.DateTimeFormat('fa-IR', {
                         year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
                         hour: '2-digit',
-                        minute: '2-digit'
+                        minute: '2-digit',
+                        second: '2-digit',
+                        timeZone: 'Asia/Tehran'
+                    }).format(date).replace(/\//g, '-');
+                },
+
+                getFilenameDate() {
+                    const date = new Date();
+                    return new Intl.DateTimeFormat('en-CA', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        calendar: 'persian',
+                        timeZone: 'Asia/Tehran'
                     }).format(date);
                 },
 
@@ -312,7 +325,7 @@ include __DIR__ . '/includes/header.php';
 
                     for (let i = 0; i < this.attempts.length; i++) {
                         const att = this.attempts[i];
-                        csv += (i + 1) + ',' + att.created_at + ',' + this.getAttemptProgress(att) + '%';
+                        csv += (i + 1) + ',"' + this.formatDate(att.created_at) + '",' + this.getAttemptProgress(att) + '%';
                         for (const q of this.questions) {
                             const val = this.getAnswer(att.id, q.id) || '';
                             csv += ',"' + val.replace(/"/g, '""') + '"';
@@ -323,7 +336,7 @@ include __DIR__ . '/includes/header.php';
                     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
                     const link = document.createElement('a');
                     link.href = URL.createObjectURL(blob);
-                    link.download = 'answers_' + this.selectedCategory + '_' + new Date().toISOString().slice(0,10) + '.csv';
+                    link.download = 'answers_' + this.selectedCategory + '_' + this.getFilenameDate() + '.csv';
                     link.click();
                 },
 
@@ -359,7 +372,7 @@ include __DIR__ . '/includes/header.php';
                     ws['!views'].push({ rightToLeft: true });
 
                     XLSX.utils.book_append_sheet(wb, ws, "Answers");
-                    XLSX.writeFile(wb, 'answers_' + this.selectedCategory + '_' + new Date().toISOString().slice(0,10) + '.xlsx');
+                    XLSX.writeFile(wb, 'answers_' + this.selectedCategory + '_' + this.getFilenameDate() + '.xlsx');
                 }
             };
         }

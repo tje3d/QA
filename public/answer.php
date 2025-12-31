@@ -1008,11 +1008,13 @@ $questionsJson = json_encode($questions, JSON_UNESCAPED_UNICODE);
                     const date = new Date(dateStr);
                     return new Intl.DateTimeFormat('fa-IR', {
                         year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
                         hour: '2-digit',
-                        minute: '2-digit'
-                    }).format(date);
+                        minute: '2-digit',
+                        second: '2-digit',
+                        timeZone: 'Asia/Tehran'
+                    }).format(date).replace(/\//g, '-');
                 }
             };
         }
